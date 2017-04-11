@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Shares
+namespace ShareInfo
 {
     public class SharePriceQuery
     {

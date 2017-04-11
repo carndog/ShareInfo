@@ -1,6 +1,7 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shares;
+using ShareInfo;
 
 namespace SharesTests
 {
@@ -8,7 +9,7 @@ namespace SharesTests
     public class SharePriceQueryTests
     {
         [TestMethod]
-        public async void TestSharesQuery()
+        public async Task TestSharesQuery()
         {
             SharePriceQuery query = new SharePriceQuery();
 

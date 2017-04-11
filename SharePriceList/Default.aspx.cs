@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.UI;
-using Shares;
+using ShareInfo;
 
 namespace SharePriceList
 {
