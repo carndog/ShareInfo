@@ -10,7 +10,7 @@ namespace ShareInfo
         public async Task<string> GetPrice(string symbol)
         {
             using (HttpClient client = new HttpClient())
-            {
+            { 
                 _queryUrl = string.Format(_queryUrl, symbol);
 
                 string data = await client.GetStringAsync(_queryUrl);
