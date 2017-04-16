@@ -11,9 +11,7 @@ namespace SharesTests
         [TestMethod]
         public async Task TestSharesQuery()
         {
-            SharePriceQuery query = new SharePriceQuery();
-
-            string price = await query.GetPrice("LLOY.L");
+            string price = await SharePriceQuery.GetFtse100Data("LLOY.L");
 
             price.Should()
                 .NotBeNullOrWhiteSpace("there must be a web response")

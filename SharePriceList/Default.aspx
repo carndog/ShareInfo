@@ -1,21 +1,79 @@
-﻿<%@ Page Title="Home Page" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SharePriceList._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Async="true" CodeBehind="Default.aspx.cs" Inherits="SharePriceList.Default" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<!DOCTYPE html>
 
-    <div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="frmMain" runat="server">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <asp:TextBox runat="server" ID="txtSymbol"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:Button runat="server" ID="btnSubmit" Text="Submit" OnClick="btnSubmit_OnClick" />
 
-    <div class="row">
-        <asp:TextBox ID="txtSymbol" runat="server"></asp:TextBox> 
-        
-        <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmit_Click" Text="Submit" />
-        <br />
-        <br />
-        
-        <asp:Label ID="lblPrices" runat="server"></asp:Label>
-    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Repeater runat="server" ID="rptHoldings">
 
-</asp:Content>
+                            <HeaderTemplate>
+                                <table cellspacing="0" rules="all" border="1">
+                                <tr>
+                                    <th scope="col" style="width: 80px">
+                                        Symbol
+                                    </th>
+                                    <th scope="col" style="width: 120px">
+                                        Name
+                                    </th>
+                                    <th scope="col" style="width: 100px">
+                                        Price
+                                    </th>
+                                    <th scope="col" style="width: 100px">
+                                        Change
+                                    </th>
+                                    <th scope="col" style="width: 100px">
+                                        Change %
+                                    </th>
+                                </tr>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <tr>
+                                    <td>
+                                        <%# DataBinder.Eval(Container.DataItem, "Symbol") %>
+                                    </td>
+                                    <td>
+                                        <%# DataBinder.Eval(Container.DataItem, "Name") %>
+                                    </td>
+                                    <td>
+                                        <%# DataBinder.Eval(Container.DataItem, "Price") %>
+                                    </td>
+                                    <td>
+                                        <%# DataBinder.Eval(Container.DataItem, "Change") %>
+                                    </td>
+                                    <td>
+                                        <%# DataBinder.Eval(Container.DataItem, "ChangePercentage") %>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                </table>
+                            </FooterTemplate>
+
+                        </asp:Repeater>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

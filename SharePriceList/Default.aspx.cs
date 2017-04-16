@@ -1,23 +1,31 @@
 ﻿using System;
-using System.Web.UI;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ShareInfo;
 
 namespace SharePriceList
 {
-    public partial class _Default : Page
+    public partial class Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
 
-        protected async void btnSubmit_Click(object sender, EventArgs e)
+        private async Task LoadData()
         {
-            SharePriceQuery query = new SharePriceQuery();
+            rptHoldings.DataMember = "ShareFeedExtract";
+            IEnumerable<string> symbols = SymbolProvider.GetSymbols();
+            var director = new ShareExtractorsDirector(symbols);
+            rptHoldings.DataSource = await director.GetExtracts();
+            rptHoldings.DataBind();
+        }
 
-            string price = await query.GetPrice(txtSymbol.Text);
+        protected async void btnSubmit_OnClick(object sender, EventArgs e)
+        {
+            //#fac-ut > div.vk_c.card-section.fac-lstng
 
-            lblPrices.Text = price;
+            await LoadData();
         }
     }
 }

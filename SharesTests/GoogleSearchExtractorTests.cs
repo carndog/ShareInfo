@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShareInfo;
@@ -6,59 +8,62 @@ using ShareInfo;
 namespace SharesTests
 {
     [TestClass]
-    public class ShareFeedExtractorTests
+    public class GoogleSearchExtractorTests
     {
-        private static ShareFeedExtractor _extractor;
+        private static ShareExtract _extract;
 
         [ClassInitialize]
         public static async Task Setup(TestContext context)
         {
-            SharePriceQuery query = new SharePriceQuery();
-            string data = await query.GetPrice("LLOY.L");
+            IEnumerable<string> symbols = new[] { "TW" };
 
-            _extractor = ShareFeedExtractor.Create(data);
+            ShareExtractorsDirector director = new ShareExtractorsDirector(symbols);
+
+            IEnumerable<ShareExtract> extracts = await director.GetExtracts();
+
+            _extract = extracts.First();
         }
 
         [TestMethod]
         public void ExtractDataWithoutError()
         {
-            _extractor.Should().NotBe(null);
+            _extract.Should().NotBe(null);
         }
 
         [TestMethod]
         public void ExtractChangeProperty()
         {
-            _extractor.Change.Should().NotBeNull();
+            _extract.Change.Should().NotBeNull();
         }
 
         [TestMethod]
         public void ExtractChangePercentageProperty()
         {
-            _extractor.ChangePercentage.Should().NotBeNull();
+            _extract.ChangePercentage.Should().NotBeNull();
         }
 
         [TestMethod]
         public void ExtractNameProperty()
         {
-            _extractor.Name.Should().Be("LLOYDS BANKING GRP");
+            _extract.Name.Should().BeEquivalentTo("Taylor Wimpey PLC");
         }
 
         [TestMethod]
         public void ExtractPriceProperty()
         {
-            _extractor.Price.Should().NotBeNull();
+            _extract.Price.Should().NotBeNull();
         }
 
         [TestMethod]
         public void ExtractShareIndexProperty()
         {
-            _extractor.ShareIndex.Should().Be("FTSE100");
+            _extract.ShareIndex.Should().BeNullOrWhiteSpace();
         }
 
         [TestMethod]
         public void ExtractSymbolProperty()
         {
-            _extractor.Symbol.Should().Be("LLOY");
+            _extract.Symbol.Should().Be("TW");
         }
     }
 }
