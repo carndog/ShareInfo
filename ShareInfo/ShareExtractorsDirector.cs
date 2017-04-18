@@ -18,9 +18,11 @@ namespace ShareInfo
             var list = new List<ShareExtract>(_symbols.Count());
 
             var ftse100FeedExtractor = new Ftse100FeedExtractor();
+            var lseSearchExtractor = new LseSearchExtractor();
             var googleSearchExtractor = new GoogleSearchExtractor();
 
-            ftse100FeedExtractor.Successor = googleSearchExtractor;
+            ftse100FeedExtractor.Successor = lseSearchExtractor;
+            lseSearchExtractor.Successor = googleSearchExtractor;
 
             foreach (string symbol in _symbols)
             {

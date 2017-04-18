@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LseSearchExtractor.cs" />
     <Compile Include="Ftse100FeedExtractor.cs" />
     <Compile Include="GoogleSearchExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
