@@ -2,30 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.OData;
-using System.Web.Http.OData.Query;
-using Microsoft.Data.OData;
 using ShareInfo;
 
-namespace SharePriceListWeb.Controllers
+namespace Info.Controllers
 {
-    public class SharePriceInfoController : ODataController
+    public class HoldingsController : ApiController
     {
-        private static readonly ODataValidationSettings ValidationSettings = new ODataValidationSettings();
-
-        // GET: odata/SharePriceInfo
-        public async Task<IHttpActionResult> GetSharePriceInfo(ODataQueryOptions<SharePriceInfo> queryOptions)
+        // GET api/<controller>
+        public async Task<IHttpActionResult> GetAsync()
         {
-            // validate the query.
-            try
-            {
-                queryOptions.Validate(ValidationSettings);
-            }
-            catch (ODataException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
             string[] symbols = SymbolProvider.GetSymbols();
 
             ShareExtractorsDirector director = new ShareExtractorsDirector(symbols);
@@ -42,22 +27,12 @@ namespace SharePriceListWeb.Controllers
                 Price = x.Price
             });
 
-            return Ok(infos.ToList());
+            return Ok(infos);
         }
 
-        // GET: odata/SharePriceInfo(5)
-        public async Task<IHttpActionResult> GetSharePriceInfo([FromODataUri] string key, ODataQueryOptions<SharePriceInfo> queryOptions)
+        // GET api/<controller>/5
+        public async Task<IHttpActionResult> Get(string key)
         {
-            // validate the query.
-            try
-            {
-                queryOptions.Validate(ValidationSettings);
-            }
-            catch (ODataException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
             ShareExtractorsDirector director = new ShareExtractorsDirector(new[] { key });
 
             IEnumerable<ShareExtract> shareExtracts = await director.GetExtracts();
@@ -72,7 +47,7 @@ namespace SharePriceListWeb.Controllers
                 Price = x.Price
             });
 
-            return Ok<SharePriceInfo>(infos.First());
+            return Ok(infos.First());
         }
     }
 }

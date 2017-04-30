@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharePriceListWeb.Controllers
+﻿namespace Info.Controllers
 {
     public class SharePriceInfo
     {
