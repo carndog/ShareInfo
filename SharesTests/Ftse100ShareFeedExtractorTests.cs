@@ -43,6 +43,14 @@ namespace SharesTests
         }
 
         [TestMethod]
+        public void ExtractChangePercentagePropertyAsRoundTo2Decimals()
+        {
+            decimal? changePercentage = _extracts.First().ChangePercentage;
+            if(changePercentage == null) Assert.Fail("Change percentage cannot be null");
+            changePercentage.Should().BeApproximately(changePercentage.Value, 2);
+        }
+
+        [TestMethod]
         public void ExtractNameProperty()
         {
             _extracts.First().Name.Should().Be("LLOYDS BANKING GRP");

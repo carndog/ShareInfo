@@ -38,9 +38,11 @@ namespace ShareInfo
             if (content != null && content.Length == 3)
             {
                 extract.Name = content[0].Split(':')[1].Trim();
-                extract.Price = Convert.ToDecimal(content[1].Split(':')[1].Trim());
+                decimal priceValue = Convert.ToDecimal(content[1].Split(':')[1].Trim());
+                extract.Price = Math.Round(priceValue, 2);
                 extract.Change = Convert.ToDecimal(content[2].Split(':')[1].Trim());
-                extract.ChangePercentage = Math.Abs(extract.Change.Value) / extract.Price * 100;
+                decimal? changePercentageValue = Math.Abs(extract.Change.Value) / extract.Price * 100;
+                extract.ChangePercentage = Math.Round(changePercentageValue.Value, 2);
             }
 
             return extract;

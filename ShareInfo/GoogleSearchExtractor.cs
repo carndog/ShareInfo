@@ -37,8 +37,8 @@ namespace ShareInfo
                 shareExtract.Symbol = strings[0].Split("-".ToCharArray())[0].Trim();
                 shareExtract.Name = strings[0].Split("-".ToCharArray())[1].Trim();
 
-                shareExtract.Price =
-                    Convert.ToDecimal(strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[0]);
+                decimal priceValue = Convert.ToDecimal(strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[0]);
+                shareExtract.Price = Math.Round(priceValue, 2);
 
                 shareExtract.Change = Convert.ToDecimal(
                     strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[1].Split("+".ToCharArray())[1]

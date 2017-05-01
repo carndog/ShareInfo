@@ -8,10 +8,24 @@
 
             if (request.readyState === 4) 
             {
-                var responseData = JSON.parse(request.responseText);
-                var ul = document.getElementById("sharesTable"); 
-                
-                ul.innerHTML = responseData;
+                var responseArray = JSON.parse(request.responseText);
+                var ul = document.getElementById("sharesTable");
+                var html = "<table><tr><th>Name</th><th>Symbol</th><th>Price</th><th>Change</th><th>Change %</th><th>Index</th></tr>";
+
+                responseArray.forEach(function (shareInfo) {
+
+                    html += "<tr><td>" + shareInfo.Name + "</td>";
+                    html += "<td>" + (shareInfo.Symbol || "&nbsp;") + "</td>";
+                    html += "<td>" + shareInfo.Price + "</td>";
+                    html += "<td>" + (shareInfo.Change || "&nbsp;") + "</td>";
+                    html += "<td>" + (shareInfo.ChangePercentage || "&nbsp;") + "</td>";
+                    html += "<td>" + (shareInfo.ShareIndex || "&nbsp;") + "</td></tr>";
+
+                });
+
+                html += "</table>";
+
+                ul.innerHTML = html;
             }
 
         }.bind(this);
@@ -27,9 +41,10 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <link rel="stylesheet" type="text/css" href="Content/Site.css">
+    <title>Share Information Board</title>
 </head>
 <body>
-    <div id="sharesTable"></div>
+    <div id="sharesTable" style="overflow-x:auto;"></div>
 </body>
 </html>
