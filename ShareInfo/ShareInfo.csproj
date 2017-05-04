@@ -33,6 +33,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="NodaTime, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.1.3.2\lib\net35-Client\NodaTime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,11 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HoldingsProvider.cs" />
+    <Compile Include="IPortfolioManager.cs" />
+    <Compile Include="IHoldingsProvider.cs" />
+    <Compile Include="ISymbolProvider.cs" />
     <Compile Include="LseSearchExtractor.cs" />
     <Compile Include="Ftse100FeedExtractor.cs" />
     <Compile Include="GoogleSearchExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShareDataExtractor.cs" />
+    <Compile Include="Holding.cs" />
     <Compile Include="ShareExtract.cs" />
     <Compile Include="ShareQueryResult.cs" />
     <Compile Include="ShareExtractorsDirector.cs" />

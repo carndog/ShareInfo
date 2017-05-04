@@ -1,8 +1,8 @@
 ﻿namespace ShareInfo
 {
-    public class SymbolProvider
+    public class SymbolProvider : ISymbolProvider
     {
-        public static string[] GetSymbols()
+        public string[] GetSymbols()
         {
             string[] symbols = { "ESNT", "RDSB", "TED", "TW", "SL", "BA", "BP", "NTG", "BRBY", "BDEV", "RR", "LLOY", "ITV", "AZN", "RMV" };
 
