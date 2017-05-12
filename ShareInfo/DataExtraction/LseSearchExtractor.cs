@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace ShareInfo
+namespace ShareInfo.DataExtraction
 {
     public class LseSearchExtractor : ShareDataExtractor
     {
@@ -15,6 +15,8 @@ namespace ShareInfo
             {
                 return await Successor.GetExtract(symbol);
             }
+
+            extract.Symbol = symbol;
 
             return extract;
         }

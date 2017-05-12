@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
-namespace ShareInfo
+namespace ShareInfo.DataExtraction
 {
     public class GoogleSearchExtractor : ShareDataExtractor
     {

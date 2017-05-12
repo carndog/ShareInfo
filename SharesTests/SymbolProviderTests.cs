@@ -11,7 +11,7 @@ namespace SharesTests
         [TestMethod]
         public void GetSymbols()
         {
-            IEnumerable<string> symbols = SymbolProvider.GetSymbols();
+            IEnumerable<string> symbols = new SymbolProvider().GetSymbols();
 
             symbols.Should().NotBeEmpty();
         }

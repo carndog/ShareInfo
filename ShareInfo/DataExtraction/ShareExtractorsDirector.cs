@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShareInfo
+namespace ShareInfo.DataExtraction
 {
     public class ShareExtractorsDirector
     {

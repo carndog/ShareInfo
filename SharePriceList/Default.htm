@@ -10,7 +10,7 @@
             {
                 var responseArray = JSON.parse(request.responseText);
                 var ul = document.getElementById("sharesTable");
-                var html = "<table><tr><th>Name</th><th>Symbol</th><th>Price</th><th>Change</th><th>Change %</th><th>Index</th></tr>";
+                var html = "<table><tr><th>Name</th><th>Symbol</th><th>Price</th><th>Change</th><th>Change %</th><th>Index</th><th>Number Held</th><th>Value</th></tr>";
 
                 responseArray.forEach(function (shareInfo) {
 
@@ -19,7 +19,10 @@
                     html += "<td>" + shareInfo.Price + "</td>";
                     html += "<td>" + (shareInfo.Change || "&nbsp;") + "</td>";
                     html += "<td>" + (shareInfo.ChangePercentage || "&nbsp;") + "</td>";
-                    html += "<td>" + (shareInfo.ShareIndex || "&nbsp;") + "</td></tr>";
+                    html += "<td>" + (shareInfo.ShareIndex || "&nbsp;");
+                    html += "<td>" + (shareInfo.NumberHeld || "&nbsp;");
+                    html += "<td>" + (shareInfo.DisplayValue || "&nbsp;");
+                    html += "</td></tr>";
 
                 });
 

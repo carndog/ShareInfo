@@ -13,5 +13,11 @@
         public decimal? Change { get; set; }
 
         public decimal? ChangePercentage { get; set; }
+
+        public int NumberHeld { get; set; }
+
+        public decimal? Value { get; set; }
+
+        public string DisplayValue { get; set; }
     }
 }

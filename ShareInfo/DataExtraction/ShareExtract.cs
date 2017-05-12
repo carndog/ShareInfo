@@ -1,4 +1,4 @@
-﻿namespace ShareInfo
+﻿namespace ShareInfo.DataExtraction
 {
     public class ShareExtract
     {

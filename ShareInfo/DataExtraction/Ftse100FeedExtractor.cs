@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace ShareInfo
+namespace ShareInfo.DataExtraction
 {
     public class Ftse100FeedExtractor : ShareDataExtractor
     {

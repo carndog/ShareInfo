@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GoogleSearchExtractorTests.cs" />
+    <Compile Include="PortfolioValueCalculatorTests.cs" />
     <Compile Include="SymbolProviderTests.cs" />
     <Compile Include="SharePriceQueryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

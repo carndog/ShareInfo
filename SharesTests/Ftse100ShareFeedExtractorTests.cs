@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShareInfo;
+using ShareInfo.DataExtraction;
 
 namespace SharesTests
 {
