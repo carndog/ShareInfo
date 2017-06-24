@@ -8,11 +8,11 @@
 
             if (request.readyState === 4) 
             {
-                var responseArray = JSON.parse(request.responseText);
+                var response = JSON.parse(request.responseText);
                 var ul = document.getElementById("sharesTable");
                 var html = "<table><tr><th>Name</th><th>Symbol</th><th>Price</th><th>Change</th><th>Change %</th><th>Index</th><th>Number Held</th><th>Value</th></tr>";
 
-                responseArray.forEach(function (shareInfo) {
+                response.SharePrices.forEach(function (shareInfo) {
 
                     html += "<tr><td>" + shareInfo.Name + "</td>";
                     html += "<td>" + (shareInfo.Symbol || "&nbsp;") + "</td>";
@@ -26,7 +26,9 @@
 
                 });
 
-                html += "</table>";
+                html += "<tr><td colspan=7></td><td>" + response.Total.DisplayValue +  "</td></tr>";
+
+                html += "</table>"; 
 
                 ul.innerHTML = html;
             }

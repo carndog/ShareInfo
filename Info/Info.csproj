@@ -86,7 +86,9 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HoldingsController.cs" />
-    <Compile Include="Controllers\SharePriceInfo.cs" />
+    <Compile Include="Controllers\InformationBoard.cs" />
+    <Compile Include="Controllers\Total.cs" />
+    <Compile Include="Controllers\SharePrice.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

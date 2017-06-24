@@ -4,6 +4,6 @@ namespace ShareInfo
 {
     public interface IHoldingsProvider
     {
-        IEnumerable<Holding> GetHoldings(ISymbolProvider provider);
+        IEnumerable<Holding> GetHoldings(ISymbolProvider provider, IValuationFilePath valuationFilePath);
     }
 }

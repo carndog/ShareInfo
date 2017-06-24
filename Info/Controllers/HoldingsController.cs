@@ -11,7 +11,6 @@ namespace Info.Controllers
 {
     public class HoldingsController : ApiController
     {
-        // GET api/<controller>
         public async Task<IHttpActionResult> GetAsync()
         {
             var symbolProvider = new SymbolProvider();
@@ -30,19 +29,21 @@ namespace Info.Controllers
 
             IHoldingsProvider holdingsProvider = new HoldingsProvider();
 
-            PortfolioValueCalculator calculator = new PortfolioValueCalculator(holdingsProvider, extracts, symbolProvider);
+            IValuationFilePath valuationFilePath = new ValuationFilePath();
+
+            PortfolioValueCalculator calculator = new PortfolioValueCalculator(holdingsProvider, extracts, symbolProvider, valuationFilePath);
 
             IEnumerable<ShareValue> shareValues = calculator.GetValues();
 
-            IEnumerable<Holding> holdings = holdingsProvider.GetHoldings(symbolProvider);
+            IEnumerable<Holding> holdings = holdingsProvider.GetHoldings(symbolProvider, valuationFilePath);
 
-            IEnumerable<SharePriceInfo> infos = extracts.Select(x =>
+            IEnumerable<SharePrice> infos = extracts.Select(x =>
             {
                 ShareValue shareValue = shareValues.First(value => value.Symbol == x.Symbol);
 
                 Holding holdingInfo = holdings.First(holding => holding.Symbol == x.Symbol);
 
-                SharePriceInfo sharePriceInfo = new SharePriceInfo
+                SharePrice sharePrice = new SharePrice
                 {
                     Name = x.Name,
                     Symbol = x.Symbol,
@@ -55,20 +56,25 @@ namespace Info.Controllers
                     DisplayValue = shareValue.DisplayValue
                 };
 
-                return sharePriceInfo;
-            });
+                return sharePrice;
+            }).ToArray();
 
-            return Ok(infos);
+            InformationBoard board = new InformationBoard
+            {
+                SharePrices = infos,
+                Total = new Total { Value = infos.Sum(x => x.Value) }
+            };
+
+            return Ok(board);
         }
 
-        // GET api/<controller>/5
         public async Task<IHttpActionResult> Get(string key)
         {
             ShareExtractorsDirector director = new ShareExtractorsDirector(new[] { key });
 
             IEnumerable<ShareExtract> shareExtracts = await director.GetExtracts();
 
-            IEnumerable<SharePriceInfo> infos = shareExtracts.Select(x => new SharePriceInfo
+            IEnumerable<SharePrice> infos = shareExtracts.Select(x => new SharePrice
             {
                 Name = x.Name,
                 Symbol = x.Symbol,

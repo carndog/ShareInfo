@@ -1,6 +1,6 @@
 ﻿namespace Info.Controllers
 {
-    public class SharePriceInfo
+    public class SharePrice
     {
         public string ShareIndex { get; set; }
 

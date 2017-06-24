@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ShareInfo;
 using ShareInfo.DataExtraction;
+using System.IO;
+using System.Reflection;
 
 namespace SharesTests
 {
@@ -12,46 +14,30 @@ namespace SharesTests
     public class PortfolioValueCalculatorTests
     {
         [TestMethod]
-        public void GetSymbols()
+        public void GivenValuationFile_WhenOneRecord_ThenPopulateShareValueListWithASingleEntry()
         {
-            Mock<IHoldingsProvider> holdingsProvider = new Mock<IHoldingsProvider>();
-            holdingsProvider.Setup(x => x.GetHoldings(It.IsAny<ISymbolProvider>()))
-                .Returns(new[]
-                {
-                    new Holding
-                    {
-                        NumberPurchased = 200,
-                        Symbol = "AZN"
-                    },
-                    new Holding
-                    {
-                        NumberPurchased = 200,
-                        Symbol = "BRBY"
-                    }
-                });
+            string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            directoryName = directoryName?.Replace(@"bin\Debug", "Resources");
 
-            PortfolioValueCalculator calculator = new PortfolioValueCalculator(holdingsProvider.Object, new[]
+            Mock<IValuationFilePath> valuationFilePathMock = new Mock<IValuationFilePath>();
+            valuationFilePathMock.Setup(x => x.Path).Returns(directoryName);
+
+            PortfolioValueCalculator calculator = new PortfolioValueCalculator(new HoldingsProvider(), new[]
             {
                 new ShareExtract
                 {
                     Symbol = "AZN",
-                    Price = 5160m
-                },
-                new ShareExtract
-                {
-                    Symbol = "BRBY",
-                    Price = 23.56m
+                    Price = 5401m
                 }
-            }, new SymbolProvider());
+            }, new SymbolProvider(), valuationFilePathMock.Object);
 
             IEnumerable<ShareValue> shareValues = calculator.GetValues().ToList();
 
             shareValues.Should().NotBeNullOrEmpty();
-            shareValues.Count().Should().Be(2);
+            shareValues.Count().Should().Be(1);
             shareValues.ElementAt(0).Symbol.Should().Be("AZN");
-            shareValues.ElementAt(0).Value.Should().Be(1032000);
-            shareValues.ElementAt(1).Symbol.Should().Be("BRBY");
-            shareValues.ElementAt(1).Value.Should().Be(4712);
+            shareValues.ElementAt(0).Value.Should().Be(2376.44m);
+            shareValues.ElementAt(0).DisplayValue.Should().Be("£2,376.44");
         }
     }
 }
