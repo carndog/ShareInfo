@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using DTO;
 using ShareInfo;
 using ShareInfo.DataExtraction;
 
@@ -57,7 +57,7 @@ namespace Info.Controllers
                 };
 
                 return sharePrice;
-            }).ToArray();
+            }).OrderByDescending(x => x.Value).ToArray();
 
             InformationBoard board = new InformationBoard
             {

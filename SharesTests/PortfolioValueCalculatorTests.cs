@@ -7,6 +7,7 @@ using ShareInfo;
 using ShareInfo.DataExtraction;
 using System.IO;
 using System.Reflection;
+using DTO;
 
 namespace SharesTests
 {

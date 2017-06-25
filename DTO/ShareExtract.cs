@@ -1,4 +1,4 @@
-﻿namespace ShareInfo.DataExtraction
+﻿namespace DTO
 {
     public class ShareExtract
     {

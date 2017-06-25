@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AEA0E39B-4641-40B2-86D6-E0FB45F35EB9}</ProjectGuid>
+    <ProjectGuid>{123AC05A-FF23-49D0-BAC9-11A857F0A9FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShareInfo</RootNamespace>
-    <AssemblyName>ShareInfo</AssemblyName>
+    <RootNamespace>Storage</RootNamespace>
+    <AssemblyName>Storage</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,16 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="NodaTime, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NodaTime.1.3.2\lib\net35-Client\NodaTime.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,31 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HoldingsProvider.cs" />
-    <Compile Include="IPortfolioManager.cs" />
-    <Compile Include="IHoldingsProvider.cs" />
-    <Compile Include="ISymbolProvider.cs" />
-    <Compile Include="DataExtraction\LseSearchExtractor.cs" />
-    <Compile Include="DataExtraction\Ftse100FeedExtractor.cs" />
-    <Compile Include="DataExtraction\GoogleSearchExtractor.cs" />
-    <Compile Include="IValuationFilePath.cs" />
-    <Compile Include="PortfolioValueCalculator.cs" />
+    <Compile Include="IShareExtractRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataExtraction\ShareDataExtractor.cs" />
-    <Compile Include="Holding.cs" />
-    <Compile Include="ShareQueryResult.cs" />
-    <Compile Include="DataExtraction\ShareExtractorsDirector.cs" />
-    <Compile Include="SharePriceQuery.cs" />
-    <Compile Include="ShareValue.cs" />
-    <Compile Include="SymbolProvider.cs" />
-    <Compile Include="ValuationFilePath.cs" />
+    <Compile Include="ShareExtractRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Scripts\20170625_InitialDatabaseCreation.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">
-      <Project>{D8D72C37-1D7A-4BE9-9F3A-A83959907242}</Project>
+      <Project>{d8d72c37-1d7a-4be9-9f3a-a83959907242}</Project>
       <Name>DTO</Name>
     </ProjectReference>
   </ItemGroup>

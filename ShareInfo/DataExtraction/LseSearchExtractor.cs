@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DTO;
 
 namespace ShareInfo.DataExtraction
 {
