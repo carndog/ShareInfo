@@ -3,19 +3,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using DTO;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ShareInfo;
 using ShareInfo.DataExtraction;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace SharesTests
 {
-    [TestClass]
+    [TestFixture]
     public class Ftse100ShareFeedExtractorTests
     {
-        private static IEnumerable<ShareExtract> _extracts;
+        private static IEnumerable<AssetPrice> _extracts;
 
-        [ClassInitialize]
-        public static async Task Setup(TestContext context)
+        [SetUp]
+        public static async Task Setup()
         {
             string data = await SharePriceQuery.GetFtse100Data("LLOY");
 
@@ -26,25 +27,25 @@ namespace SharesTests
             _extracts = await director.GetExtracts();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractDataWithoutError()
         {
             _extracts.Should().NotBeNullOrEmpty();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractChangeProperty()
         {
             _extracts.First().Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractChangePercentageProperty()
         {
             _extracts.First().Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractChangePercentagePropertyAsRoundTo2Decimals()
         {
             decimal? changePercentage = _extracts.First().ChangePercentage;
@@ -52,25 +53,25 @@ namespace SharesTests
             changePercentage.Should().BeApproximately(changePercentage.Value, 2);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractNameProperty()
         {
             _extracts.First().Name.Should().Be("LLOYDS BANKING GRP");
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractPriceProperty()
         {
             _extracts.First().Price.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractShareIndexProperty()
         {
             _extracts.First().ShareIndex.Should().Be("FTSE100");
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractSymbolProperty()
         {
             _extracts.First().Symbol.Should().Be("LLOY");

@@ -1,6 +1,6 @@
 ﻿namespace DTO
 {
-    public class ShareExtract
+    public class AssetPrice
     {
         public string ShareIndex { get; set; }
 

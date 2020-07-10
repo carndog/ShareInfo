@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ShareInfo;
 
 namespace SharesTests
 {
-    [TestClass]
+    [TestFixture]
     public class SymbolProviderTests
     {
-        [TestMethod]
+        [Test]
         public void GetSymbols()
         {
             IEnumerable<string> symbols = new SymbolProvider().GetSymbols();

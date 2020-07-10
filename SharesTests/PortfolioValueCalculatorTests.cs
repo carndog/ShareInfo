@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ShareInfo;
-using ShareInfo.DataExtraction;
 using System.IO;
 using System.Reflection;
 using DTO;
+using NUnit.Framework;
 
 namespace SharesTests
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioValueCalculatorTests
     {
-        [TestMethod]
+        [Test]
         public void GivenValuationFile_WhenOneRecord_ThenPopulateShareValueListWithASingleEntry()
         {
             string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -25,7 +24,7 @@ namespace SharesTests
 
             PortfolioValueCalculator calculator = new PortfolioValueCalculator(new HoldingsProvider(), new[]
             {
-                new ShareExtract
+                new AssetPrice
                 {
                     Symbol = "AZN",
                     Price = 5401m

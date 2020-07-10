@@ -6,9 +6,9 @@ using DTO;
 
 namespace Storage
 {
-    public class ShareExtractRepository : IShareExtractRepository
+    public class PriceRepository : IPriceRepository
     {
-        public void Add(ShareExtract extract)
+        public void Add(AssetPrice extract)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
 
@@ -18,7 +18,7 @@ namespace Storage
                     INSERT INTO [dbo].[Customer]([Id], [LastName], [State], [City], [IsActive], [CreatedOn]) 
                     VALUES (@FirstName, @LastName, @State, @City, @IsActive, @CreatedOn)";
 
-                var result = db.Execute(insertQuery, extract);
+                int result = db.Execute(insertQuery, extract);
             }
         }
     }

@@ -7,11 +7,11 @@ namespace ShareInfo.DataExtraction
 {
     public class Ftse100FeedExtractor : ShareDataExtractor
     {
-        public override async Task<ShareExtract> GetExtract(string symbol)
+        public override async Task<AssetPrice> GetExtract(string symbol)
         {
             string rawData = await SharePriceQuery.GetFtse100Data(symbol + ".L");
 
-            ShareExtract extract = Create(rawData);
+            AssetPrice extract = Create(rawData);
 
             if (string.IsNullOrWhiteSpace(extract.Name))
             {
@@ -21,16 +21,14 @@ namespace ShareInfo.DataExtraction
             return extract;
         }
 
-        private ShareExtract Create(string rawData)
+        private AssetPrice Create(string rawData)
         {
-            ShareExtract extract = new ShareExtract();
+            AssetPrice extract = new AssetPrice();
 
             XmlDocument document = new XmlDocument();
             document.LoadXml(rawData);
 
             XmlNodeList titles = document.GetElementsByTagName("title");
-
-            //TODO: xpath not working
 
             extract.ShareIndex = titles?.Item(0)?.InnerText;
             extract.Symbol = titles?.Item(1)?.InnerText.Split('.')[0];

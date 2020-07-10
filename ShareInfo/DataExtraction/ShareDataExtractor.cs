@@ -7,6 +7,6 @@ namespace ShareInfo.DataExtraction
     {
         public ShareDataExtractor Successor { protected get; set; }
 
-        public abstract Task<ShareExtract> GetExtract(string symbol);
+        public abstract Task<AssetPrice> GetExtract(string symbol);
     }
 }

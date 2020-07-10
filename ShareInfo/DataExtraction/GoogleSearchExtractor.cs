@@ -10,43 +10,43 @@ namespace ShareInfo.DataExtraction
     {
         public static readonly Regex ShareResultRegex = new Regex("^.*-.*\\d", RegexOptions.Compiled);
 
-        public override async Task<ShareExtract> GetExtract(string symbol)
+        public override async Task<AssetPrice> GetExtract(string symbol)
         {
             HtmlDocument rawData = await SharePriceQuery.GetGoogleSearchData(symbol);
 
-            ShareExtract extract = Create(rawData);
+            AssetPrice extract = Create(rawData);
 
             if (string.IsNullOrWhiteSpace(extract.Name))
             {
-                return new ShareExtract { Symbol = symbol };
+                return new AssetPrice { Symbol = symbol };
             }
 
             return extract;
         }
 
-        private ShareExtract Create(HtmlDocument document)
+        private AssetPrice Create(HtmlDocument document)
         {
             string rawData = document.GetElementbyId("search").InnerText;
 
             string searchResultValue = ShareResultRegex.Match(rawData).Value;
             string[] strings = Regex.Split(searchResultValue, @"\(LON\)");
 
-            var shareExtract = new ShareExtract();
+            AssetPrice assetPrice = new AssetPrice();
 
             try
             {
-                shareExtract.Symbol = strings[0].Split("-".ToCharArray())[0].Trim();
-                shareExtract.Name = strings[0].Split("-".ToCharArray())[1].Trim();
+                assetPrice.Symbol = strings[0].Split("-".ToCharArray())[0].Trim();
+                assetPrice.Name = strings[0].Split("-".ToCharArray())[1].Trim();
 
                 decimal priceValue = Convert.ToDecimal(strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[0]);
-                shareExtract.Price = Math.Round(priceValue, 2);
+                assetPrice.Price = Math.Round(priceValue, 2);
 
-                shareExtract.Change = Convert.ToDecimal(
+                assetPrice.Change = Convert.ToDecimal(
                     strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[1].Split("+".ToCharArray())[1]
                         .Split("(".ToCharArray())[0]
                         .Trim());
 
-                shareExtract.ChangePercentage =
+                assetPrice.ChangePercentage =
                     Math.Round(Convert.ToDecimal(
                         strings[1].Split("@".ToCharArray())[0].Split("&".ToCharArray())[1].Split("+".ToCharArray())[1]
                             .Split("(".ToCharArray())[1]
@@ -57,7 +57,7 @@ namespace ShareInfo.DataExtraction
                 
             }
 
-            return shareExtract;
+            return assetPrice;
         }
     }
 }

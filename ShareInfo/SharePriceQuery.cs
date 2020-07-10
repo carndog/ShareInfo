@@ -21,7 +21,7 @@ namespace ShareInfo
         {
             HtmlDocument htmlDocument = await Task.Factory.StartNew(() =>
             {
-                var web = new HtmlWeb();
+                HtmlWeb web = new HtmlWeb();
                 HtmlDocument document = web.Load(string.Format(GoogleQueryUrl, symbol));
 
                 return document;

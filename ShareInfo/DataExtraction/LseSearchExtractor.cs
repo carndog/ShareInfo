@@ -6,11 +6,11 @@ namespace ShareInfo.DataExtraction
 {
     public class LseSearchExtractor : ShareDataExtractor
     {
-        public override async Task<ShareExtract> GetExtract(string symbol)
+        public override async Task<AssetPrice> GetExtract(string symbol)
         {
             string rawData = await SharePriceQuery.GetLseData(symbol);
 
-            ShareExtract extract = Create(rawData);
+            AssetPrice extract = Create(rawData);
 
             if (string.IsNullOrWhiteSpace(extract.Name))
             {
@@ -22,9 +22,9 @@ namespace ShareInfo.DataExtraction
             return extract;
         }
 
-        private ShareExtract Create(string rawData)
+        private AssetPrice Create(string rawData)
         {
-            ShareExtract extract = new ShareExtract();
+            AssetPrice extract = new AssetPrice();
 
             const string sharePrice = "Share Price:";
             const string name = "Share Price Information for";

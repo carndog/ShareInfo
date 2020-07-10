@@ -18,14 +18,14 @@ namespace Info.Controllers
 
             ShareExtractorsDirector director = new ShareExtractorsDirector(symbols);
 
-            IEnumerable<ShareExtract> shareExtracts = await director.GetExtracts();
+            IEnumerable<AssetPrice> shareExtracts = await director.GetExtracts();
 
             if (shareExtracts == null)
             {
                 throw new InvalidOperationException();
             }
 
-            IEnumerable<ShareExtract> extracts = shareExtracts as ShareExtract[] ?? shareExtracts.ToArray();
+            IEnumerable<AssetPrice> extracts = shareExtracts as AssetPrice[] ?? shareExtracts.ToArray();
 
             IHoldingsProvider holdingsProvider = new HoldingsProvider();
 
@@ -72,7 +72,7 @@ namespace Info.Controllers
         {
             ShareExtractorsDirector director = new ShareExtractorsDirector(new[] { key });
 
-            IEnumerable<ShareExtract> shareExtracts = await director.GetExtracts();
+            IEnumerable<AssetPrice> shareExtracts = await director.GetExtracts();
 
             IEnumerable<SharePrice> infos = shareExtracts.Select(x => new SharePrice
             {

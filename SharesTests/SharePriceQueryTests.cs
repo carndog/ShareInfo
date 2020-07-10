@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using ShareInfo;
 
 namespace SharesTests
 {
-    [TestClass]
+    [TestFixture]
     public class SharePriceQueryTests
     {
-        [TestMethod]
+        [Test]
         public async Task TestSharesQuery()
         {
             string price = await SharePriceQuery.GetFtse100Data("LLOY.L");

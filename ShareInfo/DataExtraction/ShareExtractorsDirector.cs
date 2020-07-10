@@ -14,20 +14,20 @@ namespace ShareInfo.DataExtraction
             _symbols = symbols;
         }
 
-        public async Task<IEnumerable<ShareExtract>> GetExtracts()
+        public async Task<IEnumerable<AssetPrice>> GetExtracts()
         {
-            var list = new List<ShareExtract>(_symbols.Count());
+            List<AssetPrice> list = new List<AssetPrice>(_symbols.Count());
 
-            var ftse100FeedExtractor = new Ftse100FeedExtractor();
-            var lseSearchExtractor = new LseSearchExtractor();
-            var googleSearchExtractor = new GoogleSearchExtractor();
+            Ftse100FeedExtractor ftse100FeedExtractor = new Ftse100FeedExtractor();
+            LseSearchExtractor lseSearchExtractor = new LseSearchExtractor();
+            GoogleSearchExtractor googleSearchExtractor = new GoogleSearchExtractor();
 
             ftse100FeedExtractor.Successor = lseSearchExtractor;
             lseSearchExtractor.Successor = googleSearchExtractor;
 
             foreach (string symbol in _symbols)
             {
-                ShareExtract extract = await ftse100FeedExtractor.GetExtract(symbol);
+                AssetPrice extract = await ftse100FeedExtractor.GetExtract(symbol);
                 list.Add(extract);
             }
 

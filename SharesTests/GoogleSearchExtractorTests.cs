@@ -3,66 +3,65 @@ using System.Linq;
 using System.Threading.Tasks;
 using DTO;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ShareInfo;
+using NUnit.Framework;
 using ShareInfo.DataExtraction;
 
 namespace SharesTests
 {
-    [TestClass]
+    [TestFixture]
     public class GoogleSearchExtractorTests
     {
-        private static ShareExtract _extract;
+        private static AssetPrice _extract;
 
-        [ClassInitialize]
-        public static async Task Setup(TestContext context)
+        [SetUp]
+        public static async Task Setup()
         {
             IEnumerable<string> symbols = new[] { "TW" };
 
             ShareExtractorsDirector director = new ShareExtractorsDirector(symbols);
 
-            IEnumerable<ShareExtract> extracts = await director.GetExtracts();
+            IEnumerable<AssetPrice> extracts = await director.GetExtracts();
 
             _extract = extracts.First();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractDataWithoutError()
         {
             _extract.Should().NotBe(null);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractChangeProperty()
         {
             _extract.Change.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractChangePercentageProperty()
         {
             _extract.ChangePercentage.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractNameProperty()
         {
             _extract.Name.Should().BeEquivalentTo("Taylor Wimpey PLC");
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractPriceProperty()
         {
             _extract.Price.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractShareIndexProperty()
         {
             _extract.ShareIndex.Should().BeNullOrWhiteSpace();
         }
 
-        [TestMethod]
+        [Test]
         public void ExtractSymbolProperty()
         {
             _extract.Symbol.Should().Be("TW");
