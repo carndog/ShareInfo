@@ -4,6 +4,6 @@ namespace Storage
 {
     public interface IPriceRepository
     {
-        void Add(AssetPrice extract);
+        void Add(AssetPrice price);
     }
 }

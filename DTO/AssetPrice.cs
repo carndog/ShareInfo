@@ -5,7 +5,7 @@ namespace DTO
 {
     public class AssetPrice
     {
-        public Guid Id { get; set; }
+        public Guid AssetId { get; set; }
         
         public string Symbol { get; set; }
         

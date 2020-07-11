@@ -8,7 +8,7 @@ namespace Storage
 {
     public class PriceRepository : IPriceRepository
     {
-        public void Add(AssetPrice extract)
+        public void Add(AssetPrice price)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
 
@@ -18,9 +18,10 @@ namespace Storage
                     INSERT INTO [dbo].[Prices]([AssetId], [Symbol], [Name], [Price], [OriginalPrice], [Exchange],
                     , [Exchange], [AssetType], [Change], [ChangePercentage], [Open], [High], [Low], [Volume]
                     , [TradingDay], [Date]) 
-                    VALUES (@FirstName, @LastName, @State, @City, @IsActive, @CreatedOn)";
+                    VALUES (@AssetId, @Symbol, @Name, @Price, @OriginalPrice, @Exchange, @AssetType, @Open,
+                    @High, @Low, @Volume, @TradingDay, @CurrentDateTime, @Change, @ChangePercent)";
 
-                int result = db.Execute(insertQuery, extract);
+                int result = db.Execute(insertQuery, price);
             }
         }
     }
