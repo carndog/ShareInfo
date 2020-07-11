@@ -52,13 +52,13 @@ namespace SharesTests
         [Test]
         public void ExtractPriceProperty()
         {
-            _extract.Price.Should().NotBeNull();
+            _extract.Price.Should().NotBe(0);
         }
 
         [Test]
         public void ExtractShareIndexProperty()
         {
-            _extract.ShareIndex.Should().BeNullOrWhiteSpace();
+            _extract.Exchange.Should().BeNullOrWhiteSpace();
         }
 
         [Test]

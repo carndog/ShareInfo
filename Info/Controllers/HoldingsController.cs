@@ -47,7 +47,6 @@ namespace Info.Controllers
                 {
                     Name = x.Name,
                     Symbol = x.Symbol,
-                    ShareIndex = x.ShareIndex,
                     Change = x.Change,
                     ChangePercentage = x.ChangePercentage,
                     Price = x.Price,
@@ -78,7 +77,6 @@ namespace Info.Controllers
             {
                 Name = x.Name,
                 Symbol = x.Symbol,
-                ShareIndex = x.ShareIndex,
                 Change = x.Change,
                 ChangePercentage = x.ChangePercentage,
                 Price = x.Price

@@ -30,7 +30,7 @@ namespace ShareInfo.DataExtraction
 
             XmlNodeList titles = document.GetElementsByTagName("title");
 
-            extract.ShareIndex = titles?.Item(0)?.InnerText;
+            extract.Exchange = titles?.Item(0)?.InnerText;
             extract.Symbol = titles?.Item(1)?.InnerText.Split('.')[0];
 
             string[] content = document.GetElementsByTagName("content")?.Item(0)?.InnerText?.Split(',');

@@ -15,7 +15,9 @@ namespace Storage
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 string insertQuery = @"
-                    INSERT INTO [dbo].[Customer]([Id], [LastName], [State], [City], [IsActive], [CreatedOn]) 
+                    INSERT INTO [dbo].[Prices]([AssetId], [Symbol], [Name], [Price], [OriginalPrice], [Exchange],
+                    , [Exchange], [AssetType], [Change], [ChangePercentage], [Open], [High], [Low], [Volume]
+                    , [TradingDay], [Date]) 
                     VALUES (@FirstName, @LastName, @State, @City, @IsActive, @CreatedOn)";
 
                 int result = db.Execute(insertQuery, extract);

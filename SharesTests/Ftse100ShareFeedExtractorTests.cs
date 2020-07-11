@@ -62,13 +62,13 @@ namespace SharesTests
         [Test]
         public void ExtractPriceProperty()
         {
-            _extracts.First().Price.Should().NotBeNull();
+            _extracts.First().Price.Should().NotBe(0);
         }
 
         [Test]
         public void ExtractShareIndexProperty()
         {
-            _extracts.First().ShareIndex.Should().Be("FTSE100");
+            _extracts.First().Exchange.Should().Be("FTSE100");
         }
 
         [Test]
