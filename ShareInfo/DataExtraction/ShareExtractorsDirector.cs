@@ -20,10 +20,8 @@ namespace ShareInfo.DataExtraction
 
             Ftse100FeedExtractor ftse100FeedExtractor = new Ftse100FeedExtractor();
             LseSearchExtractor lseSearchExtractor = new LseSearchExtractor();
-            GoogleSearchExtractor googleSearchExtractor = new GoogleSearchExtractor();
 
             ftse100FeedExtractor.Successor = lseSearchExtractor;
-            lseSearchExtractor.Successor = googleSearchExtractor;
 
             foreach (string symbol in _symbols)
             {

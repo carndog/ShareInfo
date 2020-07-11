@@ -57,23 +57,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HoldingsProvider.cs" />
-    <Compile Include="IPortfolioManager.cs" />
     <Compile Include="IHoldingsProvider.cs" />
     <Compile Include="ISymbolProvider.cs" />
     <Compile Include="DataExtraction\LseSearchExtractor.cs" />
     <Compile Include="DataExtraction\Ftse100FeedExtractor.cs" />
-    <Compile Include="DataExtraction\GoogleSearchExtractor.cs" />
     <Compile Include="IValuationFilePath.cs" />
     <Compile Include="PortfolioValueCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataExtraction\ShareDataExtractor.cs" />
     <Compile Include="Holding.cs" />
-    <Compile Include="ShareQueryResult.cs" />
     <Compile Include="DataExtraction\ShareExtractorsDirector.cs" />
     <Compile Include="SharePriceQuery.cs" />
     <Compile Include="ShareValue.cs" />
-    <Compile Include="SymbolProvider.cs" />
-    <Compile Include="ValuationFilePath.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

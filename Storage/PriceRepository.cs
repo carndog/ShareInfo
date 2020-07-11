@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
@@ -23,6 +24,11 @@ namespace Storage
 
                 int result = db.Execute(insertQuery, price);
             }
+        }
+
+        public IEnumerable<AssetPrice> GetAll()
+        {
+            return new List<AssetPrice>();
         }
     }
 }
