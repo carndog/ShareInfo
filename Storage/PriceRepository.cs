@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
@@ -9,11 +8,11 @@ namespace Storage
 {
     public class PriceRepository : IPriceRepository
     {
-        public void Add(AssetPrice price)
-        {
-            string connectionString = ConfigurationManager.AppSettings["connectionString"];
+        private static readonly string ConnectionString = ConfigurationManager.AppSettings["connectionString"];
 
-            using (IDbConnection db = new SqlConnection(connectionString))
+        public bool Add(AssetPrice price)
+        {
+            using (IDbConnection db = new SqlConnection(ConnectionString))
             {
                 string insertQuery = @"
                     INSERT INTO [dbo].[Prices]([AssetId], [Symbol], [Name], [Price], [OriginalPrice], [Exchange],
@@ -23,12 +22,9 @@ namespace Storage
                     @High, @Low, @Volume, @TradingDay, @CurrentDateTime, @Change, @ChangePercent)";
 
                 int result = db.Execute(insertQuery, price);
-            }
-        }
 
-        public IEnumerable<AssetPrice> GetAll()
-        {
-            return new List<AssetPrice>();
+                return result == 1;
+            }
         }
     }
 }

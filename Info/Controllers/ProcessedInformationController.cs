@@ -1,24 +1,23 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using DTO;
 
 namespace Info.Controllers
 {
     public class ProcessedInformationController : ApiController
     {
-        public async Task<IHttpActionResult> GetAllAsync()
+        private readonly IProcessedInformationService _processedInformationService;
+
+        public ProcessedInformationController(IProcessedInformationService processedInformationService)
         {
-            return Ok(await Task.FromResult(new ProcessedInformation
-            {
-                Total = new Total
-                {
-                    Value = 2330m
-                }
-            }));
+            _processedInformationService = processedInformationService;
         }
 
-        public async Task<IHttpActionResult> Get(string key)
+        public async Task<IHttpActionResult> GetAsync()
         {
-            return Ok(await Task.FromResult(new ProcessedInformation()));
+            Progress progress = _processedInformationService.Get();
+
+            return Ok(await Task.FromResult(progress));
         }
     }
 }

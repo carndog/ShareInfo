@@ -28,4 +28,19 @@ IF NOT EXISTS (select * from sys.objects where name = 'Prices' and type_desc = '
     END
 
 GO
+IF NOT EXISTS (select * from sys.objects where name = 'Progress' and type_desc = 'USER_TABLE')
+    BEGIN
+        CREATE TABLE [dbo].[Progress](
+                                         [Id] [int] IDENTITY(1,1) NOT NULL,
+                                         CONSTRAINT [PK_Progress] PRIMARY KEY CLUSTERED
+                                             (
+                                              [Id] ASC
+                                                 ),
+                                         [processedCount] [int] NOT NULL default 0,
+                                         [Date] date NOT NULL default getdate()
+        )
+
+        insert into dbo.Progress (processedCount, Date) values (0, GETDATE())
+    END
+GO
 
