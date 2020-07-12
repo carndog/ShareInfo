@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
-using DTO;
 
-namespace Info.Controllers
+namespace Info.Controllers.Progress
 {
     public class ProcessedInformationController : ApiController
     {
@@ -15,9 +14,9 @@ namespace Info.Controllers
 
         public async Task<IHttpActionResult> GetAsync()
         {
-            Progress progress = _processedInformationService.Get();
+            DTO.Progress progress = await _processedInformationService.Get();
 
-            return Ok(await Task.FromResult(progress));
+            return Ok(progress);
         }
     }
 }

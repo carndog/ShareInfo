@@ -15,8 +15,10 @@ namespace Info.Infrastructure
                 .LifestylePerWebRequest());
             
                 container.Register(
-                    Component.For<IProcessedInformationService>().ImplementedBy<ProcessedInformationService>(),
-                    Component.For<IProgressRepository>().ImplementedBy<ProgressRepository>()
+                    Component.For<IProcessedInformationService>().LifestylePerWebRequest().ImplementedBy<ProcessedInformationService>(),
+                    Component.For<IProgressRepository>().LifestylePerWebRequest().ImplementedBy<ProgressRepository>(),
+                    Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
+                    Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>()
                 );
         }
     }

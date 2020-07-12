@@ -1,7 +1,4 @@
-﻿using System;
-using NodaTime;
-
-namespace DTO
+﻿namespace DTO
 {
     public class Progress
     {

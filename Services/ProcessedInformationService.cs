@@ -1,4 +1,5 @@
-﻿using DTO;
+﻿using System.Threading.Tasks;
+using DTO;
 using Storage;
 
 namespace Info
@@ -12,9 +13,9 @@ namespace Info
             _progressRepository = progressRepository;
         }
         
-        public Progress Get()
+        public async Task<Progress> Get()
         {
-            Progress progress = _progressRepository.Get();
+            Progress progress = await _progressRepository.Get();
             return progress;
         }
     }

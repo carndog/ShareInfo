@@ -19,6 +19,10 @@ namespace DTO
         
         public string AssetType { get; set; }
         
+        public decimal? Change { get; set; }
+        
+        public decimal? ChangePercentage { get; set; }
+        
         public decimal? Open { get; set; }
         
         public decimal? High { get; set; }
@@ -29,10 +33,6 @@ namespace DTO
         
         public string TradingDay  { get; set; }
         
-        public LocalDateTime Date { get; set; }
-        
-        public decimal? Change { get; set; }
-        
-        public decimal? ChangePercentage { get; set; }
+        public ZonedDateTime Date { get; set; }
     }
 }

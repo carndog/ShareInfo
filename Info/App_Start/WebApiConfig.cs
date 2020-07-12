@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using NodaTime;
+using NodaTime.Serialization.JsonNet;
 
 namespace Info
 {
@@ -7,6 +9,7 @@ namespace Info
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.Formatters.JsonFormatter.SerializerSettings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

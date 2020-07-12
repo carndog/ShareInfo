@@ -1,9 +1,10 @@
-﻿using DTO;
+﻿using System.Threading.Tasks;
+using DTO;
 
 namespace Storage
 {
     public interface IProgressRepository
     {
-        Progress Get();
+        Task<Progress> Get();
     }
 }

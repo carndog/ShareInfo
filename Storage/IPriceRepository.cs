@@ -1,9 +1,10 @@
-﻿using DTO;
+﻿using System.Threading.Tasks;
+using DTO;
 
 namespace Storage
 {
     public interface IPriceRepository
     {
-        bool Add(AssetPrice price);
+        Task<bool> Add(AssetPrice price);
     }
 }

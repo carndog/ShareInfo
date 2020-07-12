@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Dapper.NodaTime;
 using Info.Infrastructure;
 
 namespace Info
@@ -14,6 +15,7 @@ namespace Info
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             ConfigureWindsor(GlobalConfiguration.Configuration);
+            DapperNodaTimeSetup.Register();
         }
         
         public static void ConfigureWindsor(HttpConfiguration configuration)
