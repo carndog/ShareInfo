@@ -6,10 +6,8 @@ using DTO;
 
 namespace Storage
 {
-    public class PriceRepository : IPriceRepository
+    public class PriceRepository : RepositoryBase, IPriceRepository
     {
-        private static readonly string ConnectionString = ConfigurationManager.AppSettings["connectionString"];
-
         public bool Add(AssetPrice price)
         {
             using (IDbConnection db = new SqlConnection(ConnectionString))

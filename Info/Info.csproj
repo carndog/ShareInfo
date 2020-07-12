@@ -157,10 +157,6 @@
       <Project>{a0069bbc-316e-4784-b36d-102ee7d29010}</Project>
       <Name>Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShareInfo\ShareInfo.csproj">
-      <Project>{AEA0E39B-4641-40B2-86D6-E0FB45F35EB9}</Project>
-      <Name>ShareInfo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Storage\DataStorage.csproj">
       <Project>{123ac05a-ff23-49d0-bac9-11a857f0a9fd}</Project>
       <Name>DataStorage</Name>

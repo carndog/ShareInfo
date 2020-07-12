@@ -6,10 +6,8 @@ using DTO;
 
 namespace Storage
 {
-    public class ProgressRepository : IProgressRepository
+    public class ProgressRepository : RepositoryBase, IProgressRepository
     {
-        private static readonly string ConnectionString = ConfigurationManager.AppSettings["connectionString"];
-
         public Progress Get()
         {
             using (IDbConnection connection = new SqlConnection(ConnectionString))
