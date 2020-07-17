@@ -135,13 +135,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Controllers\Prices\Example.txt" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Prices\PricesController.cs" />
-    <Compile Include="Controllers\Progress\ProcessedInformationController.cs" />
+    <Compile Include="Controllers\ProcessingData\ProcessedInformationController.cs" />
     <Compile Include="Controllers\SharePrice.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

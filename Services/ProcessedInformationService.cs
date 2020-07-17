@@ -2,7 +2,7 @@
 using DTO;
 using Storage;
 
-namespace Info
+namespace Services
 {
     public class ProcessedInformationService : IProcessedInformationService
     {

@@ -2,7 +2,7 @@
 using DTO;
 using Storage;
 
-namespace Info
+namespace Services
 {
     public class PricesService : IPricesService
     {
@@ -13,9 +13,16 @@ namespace Info
             _priceRepository = priceRepository;
         }
         
-        public async Task Add(AssetPrice assetPrice)
-        { 
-            await _priceRepository.Add(assetPrice);
+        public async Task<int> Add(AssetPrice assetPrice)
+        {
+            int id = await _priceRepository.Add(assetPrice);
+            return id;
+        }
+
+        public async Task<AssetPrice> Get(int id)
+        {
+            AssetPrice assetPrice = await _priceRepository.Get(id);
+            return assetPrice;
         }
     }
 }

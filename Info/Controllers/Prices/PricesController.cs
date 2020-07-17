@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using DTO;
+using Services;
 
 namespace Info.Controllers.Prices
 {
@@ -16,9 +17,17 @@ namespace Info.Controllers.Prices
         [HttpPost]
         public async Task<IHttpActionResult> PostAsync([FromBody]AssetPrice price)
         {
-            await _pricesService.Add(price);
+            int id = await _pricesService.Add(price);
 
-            return CreatedAtRoute(nameof(AssetPrice), new {id = 1}, price);
+            return CreatedAtRoute("DefaultApi", new {id}, price);
+        }
+        
+        [HttpGet]
+        public async Task<IHttpActionResult> Get([FromUri]int id)
+        {
+            AssetPrice assetPrice = await _pricesService.Get(id);
+
+            return Ok(assetPrice);
         }
     }
 }

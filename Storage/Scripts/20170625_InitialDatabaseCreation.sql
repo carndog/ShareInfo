@@ -22,7 +22,7 @@ IF NOT EXISTS (select * from sys.objects where name = 'Prices' and type_desc = '
                                        [High] money NULL,
                                        [Low] money NULL,
                                        [Volume] money NULL,
-                                       [TradingDay] date NULL,
+                                       [TradingDay] nvarchar(20) NULL,
                                        [Date] date NOT NULL
         )
     END
@@ -41,6 +41,18 @@ IF NOT EXISTS (select * from sys.objects where name = 'Progress' and type_desc =
         )
 
         insert into dbo.Progress (processedCount, Date) values (0, GETDATE())
+    END
+GO
+
+IF NOT EXISTS (select * from sys.all_columns where name = 'timezone')
+    BEGIN
+        ALTER TABLE dbo.Prices DROP COLUMN [Date]
+
+        ALTER TABLE dbo.Prices
+            ADD TimeZone nvarchar(80);
+
+        ALTER TABLE dbo.Prices
+            ADD CurrentDateTime datetime2
     END
 GO
 

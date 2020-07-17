@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DTO;
 
-namespace Info
+namespace Services
 {
     public interface IProcessedInformationService
     {

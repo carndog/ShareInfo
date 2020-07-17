@@ -1,0 +1,18 @@
+﻿ POST
+ {
+		"assetId": "3a365835-51d3-4213-b9d3-4837da691aaa",
+		"symbol": "LSE",
+		"name": "London stock exchange",
+		"price": 78,
+		"originalPrice": 23.56,
+		"exchange": "London",
+		"assetType": "Shares",
+		"change": null,
+		"changePercentage": null,
+		"open": null,
+		"high": null,
+		"low": null,
+		"volume": null,
+		"tradingDay": "Anytime",
+	 	"date": "2014-04-11T09:00:00-04 America/New_York"
+	}

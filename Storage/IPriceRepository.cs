@@ -5,6 +5,8 @@ namespace Storage
 {
     public interface IPriceRepository
     {
-        Task<bool> Add(AssetPrice price);
+        Task<int> Add(AssetPrice price);
+
+        Task<AssetPrice> Get(int id);
     }
 }

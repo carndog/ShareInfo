@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DTO;
 
-namespace Info
+namespace Services
 {
     public interface IPricesService
     {
-        Task Add(AssetPrice assetPrice);
+        Task<int> Add(AssetPrice assetPrice);
+        
+        Task<AssetPrice> Get(int id);
     }
 }

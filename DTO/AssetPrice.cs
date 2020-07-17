@@ -5,6 +5,8 @@ namespace DTO
 {
     public class AssetPrice
     {
+        public int Id { get; set; }
+        
         public Guid AssetId { get; set; }
         
         public string Symbol { get; set; }
@@ -34,5 +36,9 @@ namespace DTO
         public string TradingDay  { get; set; }
         
         public ZonedDateTime Date { get; set; }
+
+        public LocalDateTime CurrentDateTime => Date.LocalDateTime;
+
+        public string TimeZone => Date.Zone.ToString();
     }
 }
