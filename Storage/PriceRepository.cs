@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace Storage
 {
     public class PriceRepository : RepositoryBase, IPriceRepository
     {
-        public async Task<int> Add(AssetPrice price)
+        public async Task<int> AddAsync(AssetPrice price)
         {
             using (IDbConnection db = new SqlConnection(ConnectionString))
             {
@@ -33,7 +32,7 @@ namespace Storage
                     SELECT Id FROM @InsertedRows
                 ";
 
-                IEnumerable<int> results = await db.QueryAsync<int>(insertQuery, 
+                IEnumerable<int> results = await db.QueryAsync<int>(insertQuery,
                     new
                     {
                         price.AssetId,
@@ -59,9 +58,46 @@ namespace Storage
             }
         }
 
-        public Task<AssetPrice> Get(int id)
+        public async Task<AssetPrice> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            AssetPrice price;
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                string query = @"
+                    SELECT 
+                        [Id],                         
+                        [AssetId], 
+                        [Symbol], 
+                        [Name], 
+                        [Price], 
+                        [OriginalPrice], 
+                        [Exchange], 
+                        [AssetType], 
+                        [Open], 
+                        [High], 
+                        [Low], 
+                        [Volume], 
+                        [TradingDay], 
+                        [CurrentDateTime], 
+                        [TimeZone], 
+                        [Change], 
+                        [ChangePercentage]
+                      FROM [dbo].[Prices]  WHERE Id = @Id";
+
+                price = await connection.QuerySingleAsync<AssetPrice>(query, new {Id = id});
+            }
+
+            return price;
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                IEnumerable<object> records = await connection.QueryAsync<object>(
+                    "SELECT 1 WHERE EXISTS (SELECT 1 FROM [dbo].[Prices] WHERE ID = @id)", new {id});
+                return records.Any();
+            }
         }
     }
 }

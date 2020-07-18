@@ -5,8 +5,10 @@ namespace Storage
 {
     public interface IPriceRepository
     {
-        Task<int> Add(AssetPrice price);
+        Task<int> AddAsync(AssetPrice price);
 
-        Task<AssetPrice> Get(int id);
+        Task<AssetPrice> GetAsync(int id);
+
+        Task<bool> ExistsAsync(int id);
     }
 }

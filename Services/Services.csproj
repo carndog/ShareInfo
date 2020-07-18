@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Storage\DataStorage.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="System.Transactions" Condition="'$(TargetFramework)' == 'net472'" />
+    </ItemGroup>
+
 </Project>

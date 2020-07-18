@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using DTO;
+using DTO.Exceptions;
 using Services;
 
 namespace Info.Controllers.Prices
@@ -17,17 +18,25 @@ namespace Info.Controllers.Prices
         [HttpPost]
         public async Task<IHttpActionResult> PostAsync([FromBody]AssetPrice price)
         {
-            int id = await _pricesService.Add(price);
+            int id = await _pricesService.AddAsync(price);
 
-            return CreatedAtRoute("DefaultApi", new {id}, price);
+            AssetPrice createdPrice = await _pricesService.GetAsync(id);
+
+            return CreatedAtRoute("DefaultApi", new {id}, createdPrice);
         }
         
         [HttpGet]
         public async Task<IHttpActionResult> Get([FromUri]int id)
         {
-            AssetPrice assetPrice = await _pricesService.Get(id);
-
-            return Ok(assetPrice);
+            try
+            {
+                AssetPrice assetPrice = await _pricesService.GetAsync(id);
+                return Ok(assetPrice);
+            }
+            catch (PriceNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

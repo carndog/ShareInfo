@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using System.Transactions;
 using DTO;
+using DTO.Exceptions;
 using Storage;
 
 namespace Services
@@ -7,22 +9,33 @@ namespace Services
     public class PricesService : IPricesService
     {
         private readonly IPriceRepository _priceRepository;
-        
+
         public PricesService(IPriceRepository priceRepository)
         {
             _priceRepository = priceRepository;
         }
-        
-        public async Task<int> Add(AssetPrice assetPrice)
+
+        public async Task<int> AddAsync(AssetPrice assetPrice)
         {
-            int id = await _priceRepository.Add(assetPrice);
-            return id;
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                int id = await _priceRepository.AddAsync(assetPrice).ConfigureAwait(false);
+
+                scope.Complete();
+
+                return id;
+            }
         }
 
-        public async Task<AssetPrice> Get(int id)
+        public async Task<AssetPrice> GetAsync(int id)
         {
-            AssetPrice assetPrice = await _priceRepository.Get(id);
-            return assetPrice;
+            if (await _priceRepository.ExistsAsync(id))
+            {
+                AssetPrice assetPrice = await _priceRepository.GetAsync(id);
+                return assetPrice;
+            }
+
+            throw new PriceNotFoundException();
         }
     }
 }
