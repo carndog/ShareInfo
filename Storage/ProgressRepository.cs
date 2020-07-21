@@ -6,7 +6,7 @@ using DTO;
 
 namespace Storage
 {
-    public class ProgressRepository : RepositoryBase, IProgressRepository
+    public class ProgressRepository : Database, IProgressRepository
     {
         public async Task<Progress> Get()
         {

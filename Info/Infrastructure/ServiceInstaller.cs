@@ -4,6 +4,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Services;
 using Storage;
+using Storage.Queries;
 
 namespace Info.Infrastructure
 {
@@ -19,7 +20,8 @@ namespace Info.Infrastructure
                     Component.For<IProcessedInformationService>().LifestylePerWebRequest().ImplementedBy<ProcessedInformationService>(),
                     Component.For<IProgressRepository>().LifestylePerWebRequest().ImplementedBy<ProgressRepository>(),
                     Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
-                    Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>()
+                    Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
+                    Component.For<IDuplicatePriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceExistsQuery>()
                 );
         }
     }

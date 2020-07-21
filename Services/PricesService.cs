@@ -3,6 +3,7 @@ using System.Transactions;
 using DTO;
 using DTO.Exceptions;
 using Storage;
+using Storage.Queries;
 
 namespace Services
 {
@@ -10,20 +11,31 @@ namespace Services
     {
         private readonly IPriceRepository _priceRepository;
 
-        public PricesService(IPriceRepository priceRepository)
+        private readonly IDuplicatePriceExistsQuery _duplicatePriceExistsQuery;
+
+        public PricesService(IPriceRepository priceRepository, IDuplicatePriceExistsQuery duplicatePriceExistsQuery)
         {
             _priceRepository = priceRepository;
+            _duplicatePriceExistsQuery = duplicatePriceExistsQuery;
         }
 
         public async Task<int> AddAsync(AssetPrice assetPrice)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                int id = await _priceRepository.AddAsync(assetPrice).ConfigureAwait(false);
+                bool exists = await _duplicatePriceExistsQuery.GetAsync(assetPrice);
 
-                scope.Complete();
+                if (!exists)
+                {
 
-                return id;
+                    int id = await _priceRepository.AddAsync(assetPrice).ConfigureAwait(false);
+
+                    scope.Complete();
+                    
+                    return id;
+                }
+
+                throw new DuplicateExistsException();
             }
         }
 

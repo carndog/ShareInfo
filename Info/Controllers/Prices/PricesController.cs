@@ -18,11 +18,18 @@ namespace Info.Controllers.Prices
         [HttpPost]
         public async Task<IHttpActionResult> PostAsync([FromBody]AssetPrice price)
         {
-            int id = await _pricesService.AddAsync(price);
+            try
+            {
+                int id = await _pricesService.AddAsync(price);
 
-            AssetPrice createdPrice = await _pricesService.GetAsync(id);
+                AssetPrice createdPrice = await _pricesService.GetAsync(id);
 
-            return CreatedAtRoute("DefaultApi", new {id}, createdPrice);
+                return CreatedAtRoute("DefaultApi", new {id}, createdPrice);
+            }
+            catch (DuplicateExistsException duplicateExistsException)
+            {
+                return BadRequest($"{duplicateExistsException.Message} Duplicate exists");
+            }
         }
         
         [HttpGet]
