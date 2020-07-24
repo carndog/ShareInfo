@@ -142,6 +142,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Prices\PricesController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\ProcessingData\ProcessedInformationController.cs" />
     <Compile Include="Controllers\SharePrice.cs" />
     <Compile Include="Global.asax.cs">
