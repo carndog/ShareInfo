@@ -18,6 +18,11 @@ namespace Info.Controllers.Prices
         [HttpPost]
         public async Task<IHttpActionResult> PostAsync([FromBody]AssetPrice price)
         {
+            if (price == null)
+            {
+                return BadRequest("Not deserialized");
+            }
+            
             try
             {
                 int id = await _pricesService.AddAsync(price);
