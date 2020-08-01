@@ -12,7 +12,7 @@ namespace Storage
         {
             using (IDbConnection connection = new SqlConnection(ConnectionString))
             {   
-                string sql = @"SELECT TOP 1 processedCount FROM [dbo].[Progress] order by [date] desc";
+                string sql = @"select count(*) from [dbo].[Prices]";
                 
                 Progress progress = await connection.QuerySingleAsync<Progress>(sql);
 

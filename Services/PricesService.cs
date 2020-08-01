@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Transactions;
 using DTO;
 using DTO.Exceptions;
@@ -13,21 +14,28 @@ namespace Services
 
         private readonly IDuplicatePriceExistsQuery _duplicatePriceExistsQuery;
 
-        public PricesService(IPriceRepository priceRepository, IDuplicatePriceExistsQuery duplicatePriceExistsQuery)
+        private readonly IProgressRepository _progressRepository;
+
+        public PricesService(
+            IPriceRepository priceRepository, 
+            IDuplicatePriceExistsQuery duplicatePriceExistsQuery, 
+            IProgressRepository progressRepository)
         {
             _priceRepository = priceRepository;
             _duplicatePriceExistsQuery = duplicatePriceExistsQuery;
+            _progressRepository = progressRepository;
         }
 
         public async Task<int> AddAsync(AssetPrice assetPrice)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+                assetPrice.AssetId = Guid.NewGuid();
+                
                 bool exists = await _duplicatePriceExistsQuery.GetAsync(assetPrice);
 
                 if (!exists)
                 {
-
                     int id = await _priceRepository.AddAsync(assetPrice).ConfigureAwait(false);
 
                     scope.Complete();
