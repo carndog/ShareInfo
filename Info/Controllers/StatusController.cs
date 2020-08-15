@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using DTO;
 
 namespace Info.Controllers
 {
@@ -7,7 +8,10 @@ namespace Info.Controllers
     {
         public async Task<IHttpActionResult> GetStatusAsync()
         {
-            return await Task.FromResult(Ok("Hello"));
+            return await Task.FromResult(Ok(new Status
+            {
+                Hello = "Hello"
+            }));
         }
     }
 }
