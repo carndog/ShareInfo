@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorage", "Storage\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{A0069BBC-316E-4784-B36D-102EE7D29010}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelServicesTests", "ExcelServicesTests\ExcelServicesTests.csproj", "{5E34F0EA-EC61-4729-A99A-6993B52FC1D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelServices", "ExcelServices\ExcelServices.csproj", "{2E1D8E1E-4F24-43C3-967F-936DA570D651}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{A0069BBC-316E-4784-B36D-102EE7D29010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0069BBC-316E-4784-B36D-102EE7D29010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0069BBC-316E-4784-B36D-102EE7D29010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E34F0EA-EC61-4729-A99A-6993B52FC1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E34F0EA-EC61-4729-A99A-6993B52FC1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E34F0EA-EC61-4729-A99A-6993B52FC1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E34F0EA-EC61-4729-A99A-6993B52FC1D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1D8E1E-4F24-43C3-967F-936DA570D651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1D8E1E-4F24-43C3-967F-936DA570D651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1D8E1E-4F24-43C3-967F-936DA570D651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1D8E1E-4F24-43C3-967F-936DA570D651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
