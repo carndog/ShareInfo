@@ -17,7 +17,7 @@ namespace ServicesTests
         }
 
         [Test]
-        public void Should_ReadContents()
+        public void Should_ReadContents_WhenClosedPosition()
         {
             ExcelMapping excelMapping = new ExcelMapping
             {
@@ -33,7 +33,7 @@ namespace ServicesTests
                     {7, "Spread"},
                     {8, "Profit"},
                     {9, "OpenDate"},
-                    {10, "CloseDate"},
+                    {10, "ClosedDate"},
                     {11, "TakeProfitRate"},
                     {12, "StopLossRate"},
                     {13, "RollOverFees"},
@@ -60,6 +60,42 @@ namespace ServicesTests
             IEnumerable<object> objects = _excelLoader.Read(excelMapping);
             
             Assert.That(objects.Count(), Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void Should_ReadContents_WhenTransaction()
+        {
+            ExcelMapping excelMapping = new ExcelMapping
+            {
+                SheetIndex = 2,
+                TargetProperties = new Dictionary<int, string>
+                {
+                    {0, "Date"},
+                    {1, "AccountBalance"},
+                    {2, "Type"},
+                    {3, "Details"},
+                    {4, "PositionId"},
+                    {5, "Amount"},
+                    {6, "RealizedEquityChange"},
+                    {7, "RealizedEquity"}
+                },
+                ExpectedColumnHeaders = new Dictionary<int, string>
+                {
+                    {0, "Date"},
+                    {1, "Account Balance"},
+                    {2, "Type"},
+                    {3, "Details"},
+                    {4, "Position Id"},
+                    {5, "Amount"},
+                    {6, "Realized Equity Change"},
+                    {7, "Realized Equity"}
+                },
+                TargetType = typeof(EtoroTransaction)
+            };
+            
+            IEnumerable<object> objects = _excelLoader.Read(excelMapping);
+            
+            Assert.That(objects.Count(), Is.EqualTo(23));
         }
     }
 }

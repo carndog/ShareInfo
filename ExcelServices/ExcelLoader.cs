@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,20 +34,18 @@ namespace ExcelServices
 
                 int cellCount = headerRow.LastCellNum;
 
-                if (cellCount != mapping.ExpectedColumnHeaders.Count)
-                {
-                    throw new IncorrectHeaderCountException();
-                }
-
                 for (int cellIndex = 0; cellIndex < cellCount; cellIndex++)
                 {
-                    ICell cell = headerRow.GetCell(cellIndex);
-
-                    string expectedHeaderString = mapping.ExpectedColumnHeaders[cellIndex];
-
-                    if (cell.StringCellValue != expectedHeaderString)
+                    if (mapping.ExpectedColumnHeaders.ContainsKey(cellIndex))
                     {
-                        throw new IncorrectHeaderException(expectedHeaderString);
+                        ICell cell = headerRow.GetCell(cellIndex);
+
+                        string expectedHeaderString = mapping.ExpectedColumnHeaders[cellIndex];
+
+                        if (!cell.StringCellValue.Equals(expectedHeaderString, StringComparison.OrdinalIgnoreCase))
+                        {
+                            throw new IncorrectHeaderException(expectedHeaderString);
+                        }
                     }
                 }
 
@@ -74,25 +73,42 @@ namespace ExcelServices
         {
             for (int cellIndex = row.FirstCellNum; cellIndex < cellCount; cellIndex++)
             {
-                string stringCellValue = row.GetCell(cellIndex)?.StringCellValue;
-
-                if (!string.IsNullOrWhiteSpace(stringCellValue))
+                if (mapping.ExpectedColumnHeaders.ContainsKey(cellIndex))
                 {
-                    PropertyInfo propertyInfo = loadedObject.GetType()
-                        .GetProperty(mapping.TargetProperties[cellIndex],
-                            BindingFlags.Public | BindingFlags.Instance);
+                    ICell cell = row.GetCell(cellIndex);
 
-                    if (propertyInfo == null)
+                    if (cell != null)
                     {
-                        throw new MissingMappedPropertyException();
-                    }
+                        string stringCellValue = null;
 
-                    if (!propertyInfo.CanWrite)
-                    {
-                        throw new CannotWritePropertyException();
-                    }
+                        if (cell.CellType == CellType.String)
+                        {
+                            stringCellValue = cell?.StringCellValue;
+                        }
+                        else if (cell.CellType == CellType.Numeric)
+                        {
+                            stringCellValue = cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
+                        }
 
-                    SetPropertyOnObject(propertyInfo, loadedObject, stringCellValue);
+                        if (!string.IsNullOrWhiteSpace(stringCellValue))
+                        {
+                            PropertyInfo propertyInfo = loadedObject.GetType()
+                                .GetProperty(mapping.TargetProperties[cellIndex],
+                                    BindingFlags.Public | BindingFlags.Instance);
+
+                            if (propertyInfo == null)
+                            {
+                                throw new MissingMappedPropertyException();
+                            }
+
+                            if (!propertyInfo.CanWrite)
+                            {
+                                throw new CannotWritePropertyException();
+                            }
+
+                            SetPropertyOnObject(propertyInfo, loadedObject, stringCellValue);
+                        }
+                    }
                 }
             }
         }
