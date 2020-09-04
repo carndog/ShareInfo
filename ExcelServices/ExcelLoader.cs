@@ -31,23 +31,10 @@ namespace ExcelServices
                 sheet = xssWorkbook.GetSheetAt(mapping.SheetIndex);
 
                 IRow headerRow = sheet.GetRow(mapping.ExpectedHeaderRowIndex);
-
+                
                 int cellCount = headerRow.LastCellNum;
-
-                for (int cellIndex = 0; cellIndex < cellCount; cellIndex++)
-                {
-                    if (mapping.ExpectedColumnHeaders.ContainsKey(cellIndex))
-                    {
-                        ICell cell = headerRow.GetCell(cellIndex);
-
-                        string expectedHeaderString = mapping.ExpectedColumnHeaders[cellIndex];
-
-                        if (!cell.StringCellValue.Equals(expectedHeaderString, StringComparison.OrdinalIgnoreCase))
-                        {
-                            throw new IncorrectHeaderException(expectedHeaderString);
-                        }
-                    }
-                }
+                
+                ValidateHeaders(mapping, cellCount, headerRow);
 
                 for (int rowIndex = (sheet.FirstRowNum + 1); rowIndex <= sheet.LastRowNum; rowIndex++)
                 {
@@ -67,6 +54,26 @@ namespace ExcelServices
             }
 
             return objects;
+        }
+
+        private static int ValidateHeaders(ExcelMapping mapping, int cellCount, IRow headerRow)
+        {
+            for (int cellIndex = 0; cellIndex < cellCount; cellIndex++)
+            {
+                if (mapping.ExpectedColumnHeaders.ContainsKey(cellIndex))
+                {
+                    ICell cell = headerRow.GetCell(cellIndex);
+
+                    string expectedHeaderString = mapping.ExpectedColumnHeaders[cellIndex];
+
+                    if (!cell.StringCellValue.Equals(expectedHeaderString, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new IncorrectHeaderException(expectedHeaderString);
+                    }
+                }
+            }
+
+            return cellCount;
         }
 
         private static void AssignProperties(ExcelMapping mapping, IRow row, int cellCount, object loadedObject)
