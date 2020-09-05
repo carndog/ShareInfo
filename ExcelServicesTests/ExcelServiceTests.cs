@@ -127,7 +127,43 @@ namespace ServicesTests
             
             IEnumerable<object> objects = _excelLoader.Read(excelMapping, "halifax.xlsx");
             
-            Assert.That(objects.Count(), Is.EqualTo(796));
+            Assert.That(objects.Count(), Is.EqualTo(132));
+        }
+        
+        [Test]
+        public void Should_ReadContents_WhenHalifaxTransactions()
+        {
+            ExcelMapping excelMapping = new ExcelMapping
+            {
+                SheetIndex = 1,
+                TargetProperties = new Dictionary<int, string>
+                {
+                    {0, "Date"},
+                    {1, "Type"},
+                    {2, "CompanyCode"},
+                    {3, "Exchange"},
+                    {4, "Quantity"},
+                    {5, "ExecutedPrice"},
+                    {6, "NetConsideration"},
+                    {7, "Reference"}
+                },
+                ExpectedColumnHeaders = new Dictionary<int, string>
+                {
+                    {0, "Date"},
+                    {1, "Type"},
+                    {2, "Company Code"},
+                    {3, "Listed on market"},
+                    {4, "Quantity"},
+                    {5, "Executed Price (p)"},
+                    {6, "Net Consideration (£)"},
+                    {7, "Reference"}
+                },
+                TargetType = typeof(HalifaxTransaction)
+            };
+            
+            IEnumerable<object> objects = _excelLoader.Read(excelMapping, "halifax.xlsx");
+            
+            Assert.That(objects.Count(), Is.EqualTo(294));
         }
     }
 }
