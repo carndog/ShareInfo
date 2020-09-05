@@ -13,11 +13,11 @@ namespace ExcelServices
 {
     public class ExcelLoader
     {
-        public IEnumerable<object> Read(ExcelMapping mapping)
+        public IEnumerable<object> Read(ExcelMapping mapping, string filename)
         {
             List<object> objects = new List<object>();
             
-            string path = Path.Combine(Environment.CurrentDirectory, "file.xlsx");
+            string path = Path.Combine(Environment.CurrentDirectory, filename);
 
             ISheet sheet;
             using (var stream = new FileStream(
@@ -142,6 +142,17 @@ namespace ExcelServices
                 bool isUlong = ulong.TryParse(stringCellValue, out ulong result);
 
                 if (!isUlong)
+                {
+                    throw new ExcelParseCellStringValueException(stringCellValue);
+                }
+
+                propertyInfo.SetValue(loadedObject, result, null);
+            }
+            else if (propertyInfo.PropertyType == typeof(int))
+            {
+                bool isInt = int.TryParse(stringCellValue, out int result);
+
+                if (!isInt)
                 {
                     throw new ExcelParseCellStringValueException(stringCellValue);
                 }

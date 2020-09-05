@@ -57,7 +57,7 @@ namespace ServicesTests
                 TargetType = typeof(EtoroClosedPosition)
             };
             
-            IEnumerable<object> objects = _excelLoader.Read(excelMapping);
+            IEnumerable<object> objects = _excelLoader.Read(excelMapping, "file.xlsx");
             
             Assert.That(objects.Count(), Is.EqualTo(1));
         }
@@ -93,9 +93,41 @@ namespace ServicesTests
                 TargetType = typeof(EtoroTransaction)
             };
             
-            IEnumerable<object> objects = _excelLoader.Read(excelMapping);
+            IEnumerable<object> objects = _excelLoader.Read(excelMapping, "file.xlsx");
             
             Assert.That(objects.Count(), Is.EqualTo(23));
+        }
+        
+        [Test]
+        public void Should_ReadContents_WhenHalifaxDividends()
+        {
+            ExcelMapping excelMapping = new ExcelMapping
+            {
+                SheetIndex = 0,
+                TargetProperties = new Dictionary<int, string>
+                {
+                    {0, "IssueDate"},
+                    {1, "Stock"},
+                    {2, "ExDividendDate"},
+                    {3, "SharesHeld"},
+                    {4, "Amount"},
+                    {5, "HandlingOption"}
+                },
+                ExpectedColumnHeaders = new Dictionary<int, string>
+                {
+                    {0, "Issue Date"},
+                    {1, "Stock"},
+                    {2, "XD Date"},
+                    {3, "Shares held on XD Date"},
+                    {4, "Amount Payable"},
+                    {5, "Handling Option"}
+                },
+                TargetType = typeof(HalifaxDividend)
+            };
+            
+            IEnumerable<object> objects = _excelLoader.Read(excelMapping, "halifax.xlsx");
+            
+            Assert.That(objects.Count(), Is.EqualTo(796));
         }
     }
 }
