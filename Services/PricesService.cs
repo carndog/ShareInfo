@@ -14,16 +14,12 @@ namespace Services
 
         private readonly IDuplicatePriceExistsQuery _duplicatePriceExistsQuery;
 
-        private readonly IProgressRepository _progressRepository;
-
         public PricesService(
             IPriceRepository priceRepository, 
-            IDuplicatePriceExistsQuery duplicatePriceExistsQuery, 
-            IProgressRepository progressRepository)
+            IDuplicatePriceExistsQuery duplicatePriceExistsQuery)
         {
             _priceRepository = priceRepository;
             _duplicatePriceExistsQuery = duplicatePriceExistsQuery;
-            _progressRepository = progressRepository;
         }
 
         public async Task<int> AddAsync(AssetPrice assetPrice)

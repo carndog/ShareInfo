@@ -12,7 +12,7 @@ namespace DTO
         
         public string Details { get; set; }
         
-        public ulong PositionId { get; set; }
+        public long PositionId { get; set; }
         
         public decimal Amount { get; set; }
         

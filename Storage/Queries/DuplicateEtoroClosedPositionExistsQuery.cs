@@ -6,9 +6,9 @@ using DTO.Exceptions;
 
 namespace Storage.Queries
 {
-    public class DuplicatePriceExistsQuery : Database, IDuplicatePriceExistsQuery
+    public class DuplicateEtoroClosedPositionExistsQuery : Database, IDuplicateEtoroClosedPositionExistsQuery
     {
-        public async Task<bool> GetAsync(AssetPrice price)
+        public async Task<bool> GetAsync(EtoroClosedPosition position)
         {
             int count = 0;
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -16,21 +16,15 @@ namespace Storage.Queries
                 string query = @"
                     SELECT 
                       COUNT(*)
-                      FROM [dbo].[Prices]  
-                    WHERE AssetId = @AssetId OR 
-                      (Symbol = @Symbol AND Exchange = @Exchange AND 
-                       ABS(DATEDIFF(minute, CurrentDateTime, @CurrentDateTime)) < 5)
+                      FROM [dbo].[EtoroClosedPosition]  
+                    WHERE positionId = @PositionId
                 ";
 
                 count = await connection.QuerySingleAsync<int>(
                     query, 
                     new
                     {
-                        price.AssetId,
-                        price.Symbol,
-                        price.Exchange,
-                        price.Price,
-                        price.CurrentDateTime
+                        position.PositionId
                     });
             }
 

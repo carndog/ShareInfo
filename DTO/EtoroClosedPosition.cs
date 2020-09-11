@@ -4,7 +4,7 @@ namespace DTO
 {
     public class EtoroClosedPosition
     {
-        public ulong PositionId { get; set; }
+        public long PositionId { get; set; }
         
         public string Action { get; set; }
         
