@@ -60,11 +60,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EtoroClosedPositionRepository.cs" />
+    <Compile Include="EtoroTransactionRepository.cs" />
     <Compile Include="IEtoroClosedPositionRepository.cs" />
+    <Compile Include="IEtoroTransactionRepository.cs" />
     <Compile Include="IPriceRepository.cs" />
     <Compile Include="IProgressRepository.cs" />
     <Compile Include="Queries\DuplicateEtoroClosedPositionExistsQuery.cs" />
+    <Compile Include="Queries\DuplicateEtoroTransactionExistsQuerycs.cs" />
     <Compile Include="Queries\IDuplicateEtoroClosedPositionExistsQuery.cs" />
+    <Compile Include="Queries\IDuplicateEtoroTransactionExistsQuerycs.cs" />
     <Compile Include="Queries\IDuplicatePriceExistsQuery.cs" />
     <Compile Include="Queries\DuplicatePriceExistsQuery.cs" />
     <Compile Include="Database.cs" />
