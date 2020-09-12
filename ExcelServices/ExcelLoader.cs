@@ -159,6 +159,17 @@ namespace ExcelServices
 
                 propertyInfo.SetValue(loadedObject, result, null);
             }
+            else if (propertyInfo.PropertyType == typeof(Int64))
+            {
+                bool isInt64 = Int64.TryParse(stringCellValue, out Int64 result);
+
+                if (!isInt64)
+                {
+                    throw new ExcelParseCellStringValueException(stringCellValue);
+                }
+
+                propertyInfo.SetValue(loadedObject, result, null);
+            }
             else if (propertyInfo.PropertyType == typeof(decimal))
             {
                 bool isDecimal = decimal.TryParse(stringCellValue, out decimal result);

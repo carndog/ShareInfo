@@ -76,6 +76,7 @@
     <None Include="packages.config" />
     <None Include="Scripts\20170625_InitialDatabaseCreation.sql" />
     <None Include="Scripts\20200911_HistoricData.sql" />
+    <None Include="Scripts\20200912_HistoricData2.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Dapper.NodaTime;
 using DTO;
 using ExcelServices;
 using Services;
@@ -16,6 +17,8 @@ namespace HistoricDataLoader
     {
         static async Task Main(string[] args)
         {
+            DapperNodaTimeSetup.Register();
+            
             Console.WriteLine("Starting loading of etoro closed positions");
             Console.WriteLine("Press any key to continue....");
             Console.ReadKey();
