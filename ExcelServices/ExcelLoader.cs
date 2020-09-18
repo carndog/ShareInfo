@@ -11,13 +11,20 @@ using NPOI.XSSF.UserModel;
 
 namespace ExcelServices
 {
-    public class ExcelLoader
+    public class ExcelLoader : IExcelLoader
     {
         public IEnumerable<object> Read(ExcelMapping mapping, string filename)
         {
             List<object> objects = new List<object>();
+
+            string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            if (directoryName == null)
+            {
+                throw new NullReferenceException();
+            }
             
-            string path = Path.Combine(Environment.CurrentDirectory, filename);
+            string path = Path.Combine(directoryName, filename);
 
             ISheet sheet;
             using (var stream = new FileStream(

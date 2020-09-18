@@ -2,9 +2,9 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using DataStorage;
+using DataStorage.Queries;
 using Services;
-using Storage;
-using Storage.Queries;
 
 namespace Info.Infrastructure
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Dapper;
 using DTO;
 
-namespace Storage
+namespace DataStorage
 {
     public class ProgressRepository : Database, IProgressRepository
     {

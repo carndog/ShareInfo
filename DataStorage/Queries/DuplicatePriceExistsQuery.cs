@@ -4,7 +4,7 @@ using Dapper;
 using DTO;
 using DTO.Exceptions;
 
-namespace Storage.Queries
+namespace DataStorage.Queries
 {
     public class DuplicatePriceExistsQuery : Database, IDuplicatePriceExistsQuery
     {

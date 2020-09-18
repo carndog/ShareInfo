@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Storage
+namespace DataStorage
 {
     public abstract class Database
     {

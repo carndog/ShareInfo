@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Dapper;
 
-namespace Storage.Queries
+namespace DataStorage.Queries
 {
     public class EtoroTransactionExistsQuery : Database, IEtoroTransactionExistsQuery
     {

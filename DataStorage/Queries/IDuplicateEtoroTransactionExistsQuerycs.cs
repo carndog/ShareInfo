@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Storage.Queries
+namespace DataStorage.Queries
 {
     public interface IEtoroTransactionExistsQuery
     {

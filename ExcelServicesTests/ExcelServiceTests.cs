@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace ServicesTests
 {
+    [TestFixture]
     public class ExcelServiceTests
     {
         private ExcelLoader _excelLoader;

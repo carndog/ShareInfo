@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using DTO;
 
-namespace Services
+namespace DataStorage
 {
-    public interface IProcessedInformationService
+    public interface IProgressRepository
     {
         Task<Progress> Get();
     }

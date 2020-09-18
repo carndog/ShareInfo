@@ -59,28 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EtoroClosedPositionRepository.cs" />
-    <Compile Include="EtoroTransactionRepository.cs" />
-    <Compile Include="IEtoroClosedPositionRepository.cs" />
-    <Compile Include="IEtoroTransactionRepository.cs" />
-    <Compile Include="IPriceRepository.cs" />
-    <Compile Include="IProgressRepository.cs" />
-    <Compile Include="Queries\DuplicateEtoroClosedPositionExistsQuery.cs" />
-    <Compile Include="Queries\DuplicateEtoroTransactionExistsQuerycs.cs" />
-    <Compile Include="Queries\IDuplicateEtoroClosedPositionExistsQuery.cs" />
-    <Compile Include="Queries\IDuplicateEtoroTransactionExistsQuerycs.cs" />
-    <Compile Include="Queries\IDuplicatePriceExistsQuery.cs" />
-    <Compile Include="Queries\DuplicatePriceExistsQuery.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="ProgressRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PriceRepository.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Scripts\20170625_InitialDatabaseCreation.sql" />
-    <None Include="Scripts\20200911_HistoricData.sql" />
-    <None Include="Scripts\20200912_HistoricData2.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">

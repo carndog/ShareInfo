@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DTO;
 
-namespace Storage.Queries
+namespace DataStorage.Queries
 {
     public interface IDuplicatePriceExistsQuery
     {

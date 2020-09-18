@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Transactions;
+using DataStorage;
+using DataStorage.Queries;
 using DTO;
 using DTO.Exceptions;
-using Storage;
-using Storage.Queries;
 
 namespace Services
 {

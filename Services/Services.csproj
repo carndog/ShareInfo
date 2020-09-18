@@ -1,17 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
         <LangVersion>8</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DTO\DTO.csproj" />
-      <ProjectReference Include="..\Storage\DataStorage.csproj" />
+      <Reference Include="System.Transactions" Condition="'$(TargetFramework)' == 'net472'" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="System.Transactions" Condition="'$(TargetFramework)' == 'net472'" />
+      <ProjectReference Include="..\DataStorage\DataStorage.csproj" />
+      <ProjectReference Include="..\DTO\DTO.csproj" />
+      <ProjectReference Include="..\ExcelServices\ExcelServices.csproj" />
     </ItemGroup>
 
 </Project>
