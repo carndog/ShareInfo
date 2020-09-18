@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
-using DataStorage.Queries;
 using DTO;
 using ExcelServices;
 
@@ -14,29 +13,18 @@ namespace Services.HistoricDatas
     {
         private readonly IExcelLoader _excelLoader;
 
-        private readonly IEtoroTransactionExistsQuery _etoroTransactionExistsQuery;
-
         private readonly IEtoroTransactionService _etoroTransactionService;
 
         public EtoroTransactionLoader(
             IExcelLoader excelLoader, 
-            IEtoroTransactionExistsQuery etoroTransactionExistsQuery, 
             IEtoroTransactionService etoroTransactionService)
         {
             _excelLoader = excelLoader;
-            _etoroTransactionExistsQuery = etoroTransactionExistsQuery;
             _etoroTransactionService = etoroTransactionService;
         }
 
         public async Task CreateEtoroTransactions(string transactionsFolderPath)
         {
-            bool exists = await _etoroTransactionExistsQuery.GetAsync();
-
-            if (exists)
-            {
-                return;
-            }
-            
             if (!string.IsNullOrWhiteSpace(transactionsFolderPath))
             {
                 if (Directory.Exists(transactionsFolderPath))

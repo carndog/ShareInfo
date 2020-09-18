@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Transactions;
 using DataStorage;
+using DataStorage.Queries;
 using DTO;
 using DTO.Exceptions;
 
@@ -10,20 +11,32 @@ namespace Services
     {
         private readonly IEtoroTransactionRepository _etoroTransactionRepository;
 
-        public EtoroTransactionService(IEtoroTransactionRepository etoroTransactionRepository)
+        private readonly IEtoroTransactionExistsQuery _etoroTransactionExistsQuery;
+
+        public EtoroTransactionService(
+            IEtoroTransactionRepository etoroTransactionRepository, 
+            IEtoroTransactionExistsQuery etoroTransactionExistsQuery)
         {
             _etoroTransactionRepository = etoroTransactionRepository;
+            _etoroTransactionExistsQuery = etoroTransactionExistsQuery;
         }
 
         public async Task<int> AddAsync(EtoroTransaction etoroTransaction)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                int id = await _etoroTransactionRepository.AddAsync(etoroTransaction).ConfigureAwait(false);
+                bool exists = await _etoroTransactionExistsQuery.GetAsync(etoroTransaction);
 
-                scope.Complete();
+                if (!exists)
+                {
+                    int id = await _etoroTransactionRepository.AddAsync(etoroTransaction).ConfigureAwait(false);
 
-                return id;
+                    scope.Complete();
+
+                    return id;
+                }
+                
+                throw new DuplicateExistsException();
             }
         }
 
