@@ -2,7 +2,7 @@
 
 namespace Services.HistoricDatas
 {
-    public interface IEtoroTransactionLoader
+    public interface IHalifaxTransactionLoader
     {
         Task Load(string transactionsFolderPath);
     }

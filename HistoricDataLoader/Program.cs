@@ -32,8 +32,8 @@ namespace HistoricDataLoader
             IEtoroClosedPositionLoader etoroClosedPositionLoader = windsorContainer.Resolve<IEtoroClosedPositionLoader>();
             IEtoroTransactionLoader etoroTransactionLoader = windsorContainer.Resolve<IEtoroTransactionLoader>();
 
-            await etoroClosedPositionLoader.CreateEtoroClosedPositions(closedPositionsFolderPath);
-            await etoroTransactionLoader.CreateEtoroTransactions(transactionsFolderPath);
+            await etoroClosedPositionLoader.Load(closedPositionsFolderPath);
+            await etoroTransactionLoader.Load(transactionsFolderPath);
         }
     }
 }

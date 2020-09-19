@@ -7,53 +7,41 @@ using ExcelServices;
 
 namespace Services.HistoricDatas
 {
-    public class EtoroTransactionLoader : BaseTransactionLoader<EtoroTransaction>, IEtoroTransactionLoader
+    public class HalifaxTransactionLoader : BaseTransactionLoader<HalifaxTransaction>, IHalifaxTransactionLoader
     {
         private readonly IExcelLoader _excelLoader;
 
-        private readonly IEtoroTransactionService _etoroTransactionService;
+        private readonly IHalifaxTransactionService _halifaxTransactionService;
 
-        public EtoroTransactionLoader(
+        public HalifaxTransactionLoader(
             IExcelLoader excelLoader,
-            IEtoroTransactionService etoroTransactionService) : 
-            base(excelLoader, etoroTransactionService)
+            IHalifaxTransactionService halifaxTransactionService) : 
+            base(excelLoader, halifaxTransactionService)
         {
             _excelLoader = excelLoader;
-            _etoroTransactionService = etoroTransactionService;
+            _halifaxTransactionService = halifaxTransactionService;
         }
 
         protected override async Task ProcessFile(string filePath)
         {
-            IEnumerable<object> objects = LoadEtoroTransactions(filePath);
+            IEnumerable<object> objects = LoadHalifaxTransactions(filePath);
 
-            IEnumerable<EtoroTransaction>
-                etoroTransactions = objects.Cast<EtoroTransaction>().ToList();
+            IEnumerable<HalifaxTransaction>
+                etoroTransactions = objects.Cast<HalifaxTransaction>().ToList();
 
             using (TransactionScope scope =
                 new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                long fakePositionId = long.MinValue;
-                foreach (EtoroTransaction transaction in etoroTransactions)
+                foreach (HalifaxTransaction transaction in etoroTransactions)
                 {
-                    if (transaction.PositionId == 0)
-                    {
-                        transaction.PositionId = fakePositionId;
-                        fakePositionId++;
-                    }
-
-                    if (transaction.Details == null)
-                    {
-                        transaction.Details = string.Empty;
-                    }
-
-                    await _etoroTransactionService.AddAsync(transaction);
+                    await _halifaxTransactionService.AddAsync(transaction);
                 }
 
                 scope.Complete();
             }
         }
 
-        private IEnumerable<object> LoadEtoroTransactions(string transactionsFilePath)
+        private IEnumerable<object> LoadHalifaxTransactions(string transactionsFilePath)
         {
             ExcelMapping excelMapping = new ExcelMapping
             {
@@ -80,7 +68,7 @@ namespace Services.HistoricDatas
                     {6, "Realized Equity Change"},
                     {7, "Realized Equity"}
                 },
-                TargetType = typeof(EtoroTransaction)
+                TargetType = typeof(HalifaxTransaction)
             };
 
             IEnumerable<object> objects = _excelLoader.Read(excelMapping, transactionsFilePath);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -8,47 +7,37 @@ using ExcelServices;
 
 namespace Services.HistoricDatas
 {
-    public class EtoroClosedPositionLoader : IEtoroClosedPositionLoader
+    public class EtoroClosedPositionLoader : BaseTransactionLoader<EtoroClosedPosition>, IEtoroClosedPositionLoader
     {
         private readonly IEtoroClosedPositionService _etoroClosedPositionService;
 
         private readonly IExcelLoader _excelLoader;
 
-        public EtoroClosedPositionLoader(IEtoroClosedPositionService etoroClosedPositionService,
-            IExcelLoader excelLoader)
+        public EtoroClosedPositionLoader(
+            IEtoroClosedPositionService etoroClosedPositionService,
+            IExcelLoader excelLoader) : 
+            base(excelLoader, etoroClosedPositionService)
         {
             _etoroClosedPositionService = etoroClosedPositionService;
             _excelLoader = excelLoader;
         }
 
-        public async Task CreateEtoroClosedPositions(string closedPositionsFolderPath)
+        protected override async Task ProcessFile(string filePath)
         {
-            if (!string.IsNullOrWhiteSpace(closedPositionsFolderPath))
+            IEnumerable<object> objects = LoadEtoroClosedPositions(filePath);
+
+            IEnumerable<EtoroClosedPosition>
+                etoroClosedPositions = objects.Cast<EtoroClosedPosition>().ToList();
+
+            using (TransactionScope scope =
+                new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                if (Directory.Exists(closedPositionsFolderPath))
+                foreach (EtoroClosedPosition position in etoroClosedPositions)
                 {
-                    string[] allFiles =
-                        Directory.GetFiles(closedPositionsFolderPath, "*.xlsx", SearchOption.AllDirectories);
-
-                    foreach (string filePath in allFiles)
-                    {
-                        IEnumerable<object> objects = LoadEtoroClosedPositions(filePath);
-
-                        IEnumerable<EtoroClosedPosition>
-                            etoroClosedPositions = objects.Cast<EtoroClosedPosition>().ToList();
-
-                        using (TransactionScope scope =
-                            new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                        {
-                            foreach (EtoroClosedPosition position in etoroClosedPositions)
-                            {
-                                await _etoroClosedPositionService.AddAsync(position);
-                            }
-
-                            scope.Complete();
-                        }
-                    }
+                    await _etoroClosedPositionService.AddAsync(position);
                 }
+
+                scope.Complete();
             }
         }
 
