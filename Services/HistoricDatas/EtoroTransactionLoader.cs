@@ -15,8 +15,7 @@ namespace Services.HistoricDatas
 
         public EtoroTransactionLoader(
             IExcelLoader excelLoader,
-            IEtoroTransactionService etoroTransactionService) : 
-            base(excelLoader, etoroTransactionService)
+            IEtoroTransactionService etoroTransactionService)
         {
             _excelLoader = excelLoader;
             _etoroTransactionService = etoroTransactionService;

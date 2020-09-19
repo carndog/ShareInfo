@@ -14,9 +14,8 @@ namespace Services.HistoricDatas
         private readonly IExcelLoader _excelLoader;
 
         public EtoroClosedPositionLoader(
-            IEtoroClosedPositionService etoroClosedPositionService,
-            IExcelLoader excelLoader) : 
-            base(excelLoader, etoroClosedPositionService)
+            IExcelLoader excelLoader, 
+            IEtoroClosedPositionService etoroClosedPositionService)
         {
             _etoroClosedPositionService = etoroClosedPositionService;
             _excelLoader = excelLoader;

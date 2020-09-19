@@ -15,8 +15,7 @@ namespace Services.HistoricDatas
 
         public HalifaxTransactionLoader(
             IExcelLoader excelLoader,
-            IHalifaxTransactionService halifaxTransactionService) : 
-            base(excelLoader, halifaxTransactionService)
+            IHalifaxTransactionService halifaxTransactionService)
         {
             _excelLoader = excelLoader;
             _halifaxTransactionService = halifaxTransactionService;
