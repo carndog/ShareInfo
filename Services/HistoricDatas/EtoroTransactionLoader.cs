@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace Services.HistoricDatas
         private readonly IEtoroTransactionService _etoroTransactionService;
 
         public EtoroTransactionLoader(
-            IExcelLoader excelLoader, 
+            IExcelLoader excelLoader,
             IEtoroTransactionService etoroTransactionService)
         {
             _excelLoader = excelLoader;
@@ -34,38 +33,32 @@ namespace Services.HistoricDatas
 
                     foreach (string filePath in allFiles)
                     {
-                        try
+                        IEnumerable<object> objects = LoadEtoroTransactions(filePath);
+
+                        IEnumerable<EtoroTransaction>
+                            etoroTransactions = objects.Cast<EtoroTransaction>().ToList();
+
+                        using (TransactionScope scope =
+                            new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                         {
-                            IEnumerable<object> objects = LoadEtoroTransactions(filePath);
-
-                            IEnumerable<EtoroTransaction>
-                                etoroTransactions = objects.Cast<EtoroTransaction>().ToList();
-
-                            using (TransactionScope scope =
-                                new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                            long fakePositionId = long.MinValue;
+                            foreach (EtoroTransaction transaction in etoroTransactions)
                             {
-                                long fakePositionId = long.MinValue;
-                                foreach (EtoroTransaction transaction in etoroTransactions)
+                                if (transaction.PositionId == 0)
                                 {
-                                    if (transaction.PositionId == 0)
-                                    {
-                                        transaction.PositionId = fakePositionId;
-                                        fakePositionId++;
-                                    }
-
-                                    if (transaction.Details == null)
-                                    {
-                                        transaction.Details = string.Empty;
-                                    }
-
-                                    await _etoroTransactionService.AddAsync(transaction);
+                                    transaction.PositionId = fakePositionId;
+                                    fakePositionId++;
                                 }
 
-                                scope.Complete();
+                                if (transaction.Details == null)
+                                {
+                                    transaction.Details = string.Empty;
+                                }
+
+                                await _etoroTransactionService.AddAsync(transaction);
                             }
-                        }
-                        catch (Exception)
-                        {
+
+                            scope.Complete();
                         }
                     }
                 }
@@ -101,7 +94,7 @@ namespace Services.HistoricDatas
                 },
                 TargetType = typeof(EtoroTransaction)
             };
-            
+
             IEnumerable<object> objects = _excelLoader.Read(excelMapping, transactionsFilePath);
             return objects;
         }

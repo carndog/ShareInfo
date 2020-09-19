@@ -1,12 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace Services
 {
-    public interface IEtoroClosedPositionService
+    public interface IEtoroClosedPositionService : IHistoricEntityService<EtoroClosedPosition>
     {
-        Task<int> AddAsync(EtoroClosedPosition etoroClosedPosition);
-        
-        Task<EtoroClosedPosition> GetAsync(int id);
     }
 }

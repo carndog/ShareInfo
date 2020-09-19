@@ -27,7 +27,7 @@ namespace ExcelServices
             string path = Path.Combine(directoryName, filename);
 
             ISheet sheet;
-            using (var stream = new FileStream(
+            using (FileStream stream = new FileStream(
                 path,
                 FileMode.Open))
             {
@@ -43,7 +43,7 @@ namespace ExcelServices
                 
                 ValidateHeaders(mapping, cellCount, headerRow);
 
-                for (int rowIndex = (sheet.FirstRowNum + 1); rowIndex <= sheet.LastRowNum; rowIndex++)
+                for (int rowIndex = sheet.FirstRowNum + 1; rowIndex <= sheet.LastRowNum; rowIndex++)
                 {
                     IRow row = sheet.GetRow(rowIndex);
 

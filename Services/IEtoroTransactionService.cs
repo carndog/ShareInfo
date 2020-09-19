@@ -1,12 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace Services
 {
-    public interface IEtoroTransactionService
+    public interface IEtoroTransactionService : IHistoricEntityService<EtoroTransaction>
     {
-        Task<int> AddAsync(EtoroTransaction etoroTransaction);
-        
-        Task<EtoroTransaction> GetAsync(int id);
     }
 }

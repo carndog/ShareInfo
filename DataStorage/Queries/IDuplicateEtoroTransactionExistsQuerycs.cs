@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace DataStorage.Queries
 {
-    public interface IEtoroTransactionExistsQuery
+    public interface IEtoroTransactionExistsQuery : IDuplicateEntityExistsQuery<EtoroTransaction>
     {
-        Task<bool> GetAsync(EtoroTransaction transaction);
     }
 }

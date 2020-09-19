@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace DataStorage.Queries
 {
-    public interface IDuplicateEtoroClosedPositionExistsQuery
+    public interface IDuplicateEtoroClosedPositionExistsQuery : IDuplicateEntityExistsQuery<EtoroClosedPosition>
     {
-        Task<bool> GetAsync(EtoroClosedPosition position);
     }
 }

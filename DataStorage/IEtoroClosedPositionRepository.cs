@@ -1,14 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace DataStorage
 {
-    public interface IEtoroClosedPositionRepository
+    public interface IEtoroClosedPositionRepository : IRepository<EtoroClosedPosition>
     {
-        Task<int> AddAsync(EtoroClosedPosition position);
-
-        Task<EtoroClosedPosition> GetAsync(int id);
-
-        Task<bool> ExistsAsync(int id);
     }
 }

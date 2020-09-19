@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace DataStorage.Queries
 {
-    public interface IDuplicatePriceExistsQuery
+    public interface IDuplicatePriceExistsQuery : IDuplicateEntityExistsQuery<AssetPrice>
     {
-        Task<bool> GetAsync(AssetPrice price);
     }
 }

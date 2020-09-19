@@ -17,7 +17,6 @@ namespace Info.Infrastructure
                 .LifestylePerWebRequest());
             
                 container.Register(
-                    Component.For<IProgressRepository>().LifestylePerWebRequest().ImplementedBy<ProgressRepository>(),
                     Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
                     Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
                     Component.For<IDuplicatePriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceExistsQuery>()

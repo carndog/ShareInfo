@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +13,14 @@ namespace Services.HistoricDatas
         private readonly IEtoroClosedPositionService _etoroClosedPositionService;
 
         private readonly IExcelLoader _excelLoader;
-        
-        public EtoroClosedPositionLoader(IEtoroClosedPositionService etoroClosedPositionService, IExcelLoader excelLoader)
+
+        public EtoroClosedPositionLoader(IEtoroClosedPositionService etoroClosedPositionService,
+            IExcelLoader excelLoader)
         {
             _etoroClosedPositionService = etoroClosedPositionService;
             _excelLoader = excelLoader;
         }
-        
+
         public async Task CreateEtoroClosedPositions(string closedPositionsFolderPath)
         {
             if (!string.IsNullOrWhiteSpace(closedPositionsFolderPath))
@@ -32,26 +32,20 @@ namespace Services.HistoricDatas
 
                     foreach (string filePath in allFiles)
                     {
-                        try
+                        IEnumerable<object> objects = LoadEtoroClosedPositions(filePath);
+
+                        IEnumerable<EtoroClosedPosition>
+                            etoroClosedPositions = objects.Cast<EtoroClosedPosition>().ToList();
+
+                        using (TransactionScope scope =
+                            new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                         {
-                            IEnumerable<object> objects = LoadEtoroClosedPositions(filePath);
-
-                            IEnumerable<EtoroClosedPosition>
-                                etoroClosedPositions = objects.Cast<EtoroClosedPosition>().ToList();
-
-                            using (TransactionScope scope =
-                                new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                            foreach (EtoroClosedPosition position in etoroClosedPositions)
                             {
-                                foreach (EtoroClosedPosition position in etoroClosedPositions)
-                                {
-                                    await _etoroClosedPositionService.AddAsync(position);
-                                }
-
-                                scope.Complete();
+                                await _etoroClosedPositionService.AddAsync(position);
                             }
-                        }
-                        catch (Exception)
-                        {
+
+                            scope.Complete();
                         }
                     }
                 }
