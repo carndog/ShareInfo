@@ -69,12 +69,12 @@ namespace DataStorage
 
         public async Task<bool> ExistsAsync(int id)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                IEnumerable<object> records = await connection.QueryAsync<object>(
-                    "SELECT 1 WHERE EXISTS (SELECT 1 FROM [dbo].[HalifaxDividend] WHERE ID = @id)", new {id});
-                return records.Any();
-            }
+            return await base.ExistsAsync(id, "HalifaxDividend");
+        }
+        
+        public async Task<int> CountAsync()
+        {
+            return await base.CountAsync("EtoroClosedPosition");
         }
     }
 }
