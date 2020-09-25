@@ -5,7 +5,7 @@ using DTO;
 
 namespace DataStorage.Queries
 {
-    public class DuplicateEtoroTransactionExistsQuery : Database, IEtoroTransactionExistsQuery
+    public class DuplicateDuplicateEtoroTransactionExistsQuery : Database, IDuplicateEtoroTransactionExistsQuery
     {
         public async Task<bool> GetAsync(EtoroTransaction transaction)
         {

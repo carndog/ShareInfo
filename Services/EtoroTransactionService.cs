@@ -8,8 +8,8 @@ namespace Services
     {
         public EtoroTransactionService(
             IEtoroTransactionRepository etoroTransactionRepository, 
-            IEtoroTransactionExistsQuery etoroTransactionExistsQuery) : 
-            base(etoroTransactionRepository, etoroTransactionExistsQuery)
+            IDuplicateEtoroTransactionExistsQuery duplicateEtoroTransactionExistsQuery) : 
+            base(etoroTransactionRepository, duplicateEtoroTransactionExistsQuery)
         {
         }
     }

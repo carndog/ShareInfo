@@ -2,7 +2,7 @@
 
 namespace DataStorage.Queries
 {
-    public interface IEtoroTransactionExistsQuery : IDuplicateEntityExistsQuery<EtoroTransaction>
+    public interface IDuplicateEtoroTransactionExistsQuery : IDuplicateEntityExistsQuery<EtoroTransaction>
     {
     }
 }

@@ -12,7 +12,7 @@ namespace DTO
         
         public string Exchange { get; set; }
         
-        public int Quantity { get; set; }
+        public int Quantity { get; set; }    
         
         public decimal ExecutedPrice { get; set; }
         

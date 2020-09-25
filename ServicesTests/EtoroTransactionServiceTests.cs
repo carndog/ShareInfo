@@ -22,7 +22,7 @@ namespace ServicesTests
             _etoroTransactionRepository = new EtoroTransactionRepository();
             
             _service = new EtoroTransactionService(_etoroTransactionRepository,
-                new DuplicateEtoroTransactionExistsQuery());
+                new DuplicateDuplicateEtoroTransactionExistsQuery());
         }
 
         [Test]

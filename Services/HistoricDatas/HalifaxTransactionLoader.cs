@@ -44,28 +44,28 @@ namespace Services.HistoricDatas
         {
             ExcelMapping excelMapping = new ExcelMapping
             {
-                SheetIndex = 2,
+                SheetIndex = 1,
                 TargetProperties = new Dictionary<int, string>
                 {
                     {0, "Date"},
-                    {1, "AccountBalance"},
-                    {2, "Type"},
-                    {3, "Details"},
-                    {4, "PositionId"},
-                    {5, "Amount"},
-                    {6, "RealizedEquityChange"},
-                    {7, "RealizedEquity"}
+                    {1, "Type"},
+                    {2, "CompanyCode"},
+                    {3, "Exchange"},
+                    {4, "Quantity"},
+                    {5, "ExecutedPrice"},
+                    {6, "NetConsideration"},
+                    {7, "Reference"}
                 },
                 ExpectedColumnHeaders = new Dictionary<int, string>
                 {
                     {0, "Date"},
-                    {1, "Account Balance"},
-                    {2, "Type"},
-                    {3, "Details"},
-                    {4, "Position Id"},
-                    {5, "Amount"},
-                    {6, "Realized Equity Change"},
-                    {7, "Realized Equity"}
+                    {1, "Type"},
+                    {2, "Company Code"},
+                    {3, "Listed On Market"},
+                    {4, "Quantity"},
+                    {5, "Executed Price (p)"},
+                    {6, "Net Consideration (£)"},
+                    {7, "Reference"}
                 },
                 TargetType = typeof(HalifaxTransaction)
             };
