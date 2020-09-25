@@ -78,7 +78,7 @@ namespace DataStorage
         
         public async Task<int> CountAsync()
         {
-            return await base.CountAsync("EtoroClosedPosition");
+            return await base.CountAsync("HalifaxTransaction");
         }
     }
 }
