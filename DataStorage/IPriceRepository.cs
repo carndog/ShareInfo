@@ -1,14 +1,8 @@
-﻿using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 
 namespace DataStorage
 {
-    public interface IPriceRepository
+    public interface IPriceRepository : IRepository<AssetPrice>
     {
-        Task<int> AddAsync(AssetPrice price);
-
-        Task<AssetPrice> GetAsync(int id);
-
-        Task<bool> ExistsAsync(int id);
     }
 }

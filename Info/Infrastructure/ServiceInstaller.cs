@@ -18,8 +18,11 @@ namespace Info.Infrastructure
             
                 container.Register(
                     Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
+                    Component.For<IPeriodPriceService>().LifestylePerWebRequest().ImplementedBy<PeriodPriceService>(),
                     Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
-                    Component.For<IDuplicatePriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceExistsQuery>()
+                    Component.For<IPeriodPriceRepository>().LifestylePerWebRequest().ImplementedBy<PeriodPriceRepository>(),
+                    Component.For<IDuplicatePriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceExistsQuery>(),
+                    Component.For<IDuplicatePeriodPriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePeriodPriceExistsQuery>()
                 );
         }
     }
