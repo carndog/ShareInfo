@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DTO;
+using NodaTime;
 
 namespace DataStorage
 {
@@ -72,6 +73,21 @@ namespace DataStorage
             }
 
             return periodPrice;
+        }
+        
+        public async Task<LocalDate?> GetLatestAsync(string symbol)
+        {
+            LocalDate? latest;
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                string query = @"
+                    SELECT MAX(date) as latest
+                      FROM [dbo].[PeriodPrice]  WHERE symbol = @symbol";
+
+                latest = await connection.QuerySingleAsync<LocalDate?>(query, new {symbol});
+            }
+
+            return latest;
         }
 
         public async Task<bool> ExistsAsync(int id)

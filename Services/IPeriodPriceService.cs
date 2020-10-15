@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DTO;
+using NodaTime;
 
 namespace Services
 {
@@ -8,5 +9,7 @@ namespace Services
         Task<int> AddAsync(PeriodPrice periodPrice);
         
         Task<PeriodPrice> GetAsync(int id);
+
+        Task<LocalDate?> GetLatestAsync(string symbol);
     }
 }

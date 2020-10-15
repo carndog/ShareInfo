@@ -5,6 +5,7 @@ using DataStorage;
 using DataStorage.Queries;
 using DTO;
 using DTO.Exceptions;
+using NodaTime;
 
 namespace Services
 {
@@ -52,6 +53,12 @@ namespace Services
             }
 
             throw new PeriodPriceNotFoundException();
+        }
+
+        public async Task<LocalDate?> GetLatestAsync(string symbol)
+        {
+            LocalDate? latest = await _periodPriceRepository.GetLatestAsync(symbol);
+            return latest;
         }
     }
 }
