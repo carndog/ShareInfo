@@ -28,7 +28,8 @@ namespace ServicesTests
             
             _service = new PeriodPriceService(
                 _periodPriceRepository,
-                new DuplicatePeriodPriceExistsQuery());
+                new DuplicatePeriodPriceExistsQuery(),
+                new GetPeriodPriceBySymbolQuery());
             
             _date = new LocalDate(2020, 1, 1);
         }

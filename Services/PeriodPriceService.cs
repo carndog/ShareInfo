@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
 using DataStorage;
@@ -15,12 +16,16 @@ namespace Services
 
         private readonly IDuplicatePeriodPriceExistsQuery _duplicatePeriodPriceExistsQuery;
 
+        private readonly IGetPeriodPriceBySymbolQuery _getPeriodPriceBySymbolQuery;
+
         public PeriodPriceService(
             IPeriodPriceRepository periodPriceRepository, 
-            IDuplicatePeriodPriceExistsQuery duplicatePeriodPriceExistsQuery)
+            IDuplicatePeriodPriceExistsQuery duplicatePeriodPriceExistsQuery, 
+            IGetPeriodPriceBySymbolQuery getPeriodPriceBySymbolQuery)
         {
             _periodPriceRepository = periodPriceRepository;
             _duplicatePeriodPriceExistsQuery = duplicatePeriodPriceExistsQuery;
+            _getPeriodPriceBySymbolQuery = getPeriodPriceBySymbolQuery;
         }
 
         public async Task<int> AddAsync(PeriodPrice periodPrice)
@@ -59,6 +64,11 @@ namespace Services
         {
             LocalDate? latest = await _periodPriceRepository.GetLatestAsync(symbol);
             return latest;
+        }
+
+        public async Task<IEnumerable<PeriodPrice>> GetAsync(string symbol)
+        {
+            return await _getPeriodPriceBySymbolQuery.GetAsync(symbol);
         }
     }
 }

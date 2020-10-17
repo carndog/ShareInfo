@@ -8,7 +8,7 @@ using DTO;
 
 namespace DataStorage
 {
-    public class EtoroClosedPositionRepository : Database, IEtoroClosedPositionRepository
+    public class EtoroClosedPositionRepository : Repository, IEtoroClosedPositionRepository
     {
         public async Task<int> AddAsync(EtoroClosedPosition position)
         {

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using DTO;
 using DTO.Exceptions;
@@ -62,6 +63,14 @@ namespace Info.Controllers.Prices
             {
                 Date = latestDate
             });
+        }
+        
+        [HttpGet]
+        [Route("{symbol}")]
+        public async Task<IHttpActionResult> GetAll([FromUri] string symbol)
+        {
+            IEnumerable<PeriodPrice> periodPrices = await _periodPriceService.GetAsync(symbol);
+            return Ok(periodPrices);
         }
     }
 }

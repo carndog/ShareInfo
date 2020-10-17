@@ -8,7 +8,7 @@ using DTO;
 
 namespace DataStorage
 {
-    public class PriceRepository : Database, IPriceRepository
+    public class PriceRepository : Repository, IPriceRepository
     {
         public async Task<int> AddAsync(AssetPrice price)
         {

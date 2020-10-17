@@ -8,7 +8,7 @@ using DTO;
 
 namespace DataStorage
 {
-    public class HalifaxTransactionRepository : Database, IHalifaxTransactionRepository
+    public class HalifaxTransactionRepository : Repository, IHalifaxTransactionRepository
     {
         public async Task<int> AddAsync(HalifaxTransaction transaction)
         {

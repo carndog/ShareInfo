@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DTO;
 using NodaTime;
 
@@ -11,5 +12,7 @@ namespace Services
         Task<PeriodPrice> GetAsync(int id);
 
         Task<LocalDate?> GetLatestAsync(string symbol);
+        
+        Task<IEnumerable<PeriodPrice>> GetAsync(string symbol);
     }
 }

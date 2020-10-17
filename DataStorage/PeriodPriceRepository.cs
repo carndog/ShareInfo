@@ -9,7 +9,7 @@ using NodaTime;
 
 namespace DataStorage
 {
-    public class PeriodPriceRepository : Database, IPeriodPriceRepository
+    public class PeriodPriceRepository : Repository, IPeriodPriceRepository
     {
         public async Task<int> AddAsync(PeriodPrice periodPrice)
         {

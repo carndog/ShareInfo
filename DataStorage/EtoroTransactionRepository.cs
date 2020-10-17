@@ -8,7 +8,7 @@ using DTO;
 
 namespace DataStorage
 {
-    public class EtoroTransactionRepository : Database, IEtoroTransactionRepository
+    public class EtoroTransactionRepository : Repository, IEtoroTransactionRepository
     {
         public async Task<int> AddAsync(EtoroTransaction transaction)
         {

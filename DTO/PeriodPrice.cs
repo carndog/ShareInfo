@@ -5,6 +5,8 @@ namespace DTO
 {
     public class PeriodPrice
     {
+        public int Id { get; set; }
+        
         public Guid PeriodPriceId { get; set; }
         
         public string Symbol { get; set; }

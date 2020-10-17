@@ -22,7 +22,8 @@ namespace Info.Infrastructure
                     Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
                     Component.For<IPeriodPriceRepository>().LifestylePerWebRequest().ImplementedBy<PeriodPriceRepository>(),
                     Component.For<IDuplicatePriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceExistsQuery>(),
-                    Component.For<IDuplicatePeriodPriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePeriodPriceExistsQuery>()
+                    Component.For<IDuplicatePeriodPriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePeriodPriceExistsQuery>(),
+                    Component.For<IGetPeriodPriceBySymbolQuery>().LifestylePerWebRequest().ImplementedBy<GetPeriodPriceBySymbolQuery>()
                 );
         }
     }
