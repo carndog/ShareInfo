@@ -9,7 +9,7 @@ namespace DataStorage.Queries
 {
     public class GetPeriodPriceBySymbolQuery : Database, IGetPeriodPriceBySymbolQuery
     {
-        public async Task<IEnumerable<PeriodPrice>> GetAsync(string symbol)
+        public async Task<PeriodPriceCollection> GetAsync(string symbol)
         {
             IEnumerable<PeriodPrice> periodPrices;
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -27,7 +27,7 @@ namespace DataStorage.Queries
                            Date
                       FROM [dbo].[PeriodPrice]  
                     WHERE symbol = @Symbol
-                    ORDER BY date desc
+                    ORDER BY date
                 ";
 
                 periodPrices = await connection.QueryAsync<PeriodPrice>(
@@ -38,7 +38,10 @@ namespace DataStorage.Queries
                     });
             }
 
-            return periodPrices ?? Enumerable.Empty<PeriodPrice>();
+            return new PeriodPriceCollection
+            {
+                PeriodPrices = periodPrices ?? Enumerable.Empty<PeriodPrice>()
+            };
         }
     }
 }

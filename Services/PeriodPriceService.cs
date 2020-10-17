@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
 using DataStorage;
@@ -66,7 +65,7 @@ namespace Services
             return latest;
         }
 
-        public async Task<IEnumerable<PeriodPrice>> GetAsync(string symbol)
+        public async Task<PeriodPriceCollection> GetAsync(string symbol)
         {
             return await _getPeriodPriceBySymbolQuery.GetAsync(symbol);
         }

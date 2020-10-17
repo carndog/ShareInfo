@@ -69,7 +69,7 @@ namespace Info.Controllers.Prices
         [Route("{symbol}")]
         public async Task<IHttpActionResult> GetAll([FromUri] string symbol)
         {
-            IEnumerable<PeriodPrice> periodPrices = await _periodPriceService.GetAsync(symbol);
+            PeriodPriceCollection periodPrices = await _periodPriceService.GetAsync(symbol);
             return Ok(periodPrices);
         }
     }
