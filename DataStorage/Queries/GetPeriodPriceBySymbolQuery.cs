@@ -17,6 +17,7 @@ namespace DataStorage.Queries
                 string query = @"
                     SELECT Id, 
                            PeriodPriceId,
+                           Symbol,
                            PeriodType, 
                            [Open],
                            High, 
