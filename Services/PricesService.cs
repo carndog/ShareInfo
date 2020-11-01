@@ -26,8 +26,6 @@ namespace Services
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                assetPrice.AssetId = Guid.NewGuid();
-                
                 bool exists = await _duplicatePriceExistsQuery.GetAsync(assetPrice);
 
                 if (!exists)
