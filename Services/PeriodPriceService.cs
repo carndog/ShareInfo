@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
 using DataStorage;
@@ -45,6 +46,30 @@ namespace Services
                 }
 
                 throw new DuplicateExistsException();
+            }
+        }
+
+        public async Task AddListAsync(IEnumerable<PeriodPrice> periodPrices)
+        {
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                foreach (PeriodPrice periodPrice in periodPrices)
+                {
+                    periodPrice.PeriodPriceId = Guid.NewGuid();
+                
+                    bool exists = await _duplicatePeriodPriceExistsQuery.GetAsync(periodPrice);
+
+                    if (!exists)
+                    {
+                        await _periodPriceRepository.AddAsync(periodPrice);
+                    }
+                    else
+                    {
+                        throw new DuplicateExistsException();
+                    }
+                }
+                
+                scope.Complete();
             }
         }
 

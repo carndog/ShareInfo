@@ -39,6 +39,27 @@ namespace Info.Controllers.Prices
                 return BadRequest($"{duplicateExistsException.Message} Duplicate exists");
             }
         }
+        
+        [HttpPost]
+        [Route("load")]
+        public async Task<IHttpActionResult> LoadAsync([FromBody] IEnumerable<PeriodPrice> periodPrices)
+        {
+            if (periodPrices == null)
+            {
+                return BadRequest("Not deserialized");
+            }
+
+            try
+            {
+                await _periodPriceService.AddListAsync(periodPrices);
+
+                return Created("DefaultApi", string.Empty);
+            }
+            catch (DuplicateExistsException duplicateExistsException)
+            {
+                return BadRequest($"{duplicateExistsException.Message} Duplicate exists");
+            }
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get([FromUri] int id)

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DTO;
 using NodaTime;
 
@@ -7,6 +8,8 @@ namespace Services
     public interface IPeriodPriceService
     {
         Task<int> AddAsync(PeriodPrice periodPrice);
+        
+        Task AddListAsync(IEnumerable<PeriodPrice> periodPrices);
         
         Task<PeriodPrice> GetAsync(int id);
 
