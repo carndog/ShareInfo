@@ -49,7 +49,7 @@ namespace Services
             }
         }
 
-        public async Task AddListAsync(IEnumerable<PeriodPrice> periodPrices)
+        public async Task<IEnumerable<PeriodPrice>> AddListAsync(IEnumerable<PeriodPrice> periodPrices)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -61,7 +61,8 @@ namespace Services
 
                     if (!exists)
                     {
-                        await _periodPriceRepository.AddAsync(periodPrice);
+                        int id = await _periodPriceRepository.AddAsync(periodPrice);
+                        periodPrice.Id = id;
                     }
                     else
                     {
@@ -71,6 +72,8 @@ namespace Services
                 
                 scope.Complete();
             }
+
+            return periodPrices;
         }
 
         public async Task<PeriodPrice> GetAsync(int id)

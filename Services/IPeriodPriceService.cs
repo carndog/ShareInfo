@@ -9,7 +9,7 @@ namespace Services
     {
         Task<int> AddAsync(PeriodPrice periodPrice);
         
-        Task AddListAsync(IEnumerable<PeriodPrice> periodPrices);
+        Task<IEnumerable<PeriodPrice>> AddListAsync(IEnumerable<PeriodPrice> periodPrices);
         
         Task<PeriodPrice> GetAsync(int id);
 

@@ -42,7 +42,7 @@ namespace Info.Controllers.Prices
         
         [HttpPost]
         [Route("load")]
-        public async Task<IHttpActionResult> LoadAsync([FromBody] IEnumerable<PeriodPrice> periodPrices)
+        public async Task<IHttpActionResult> LoadAsync([FromBody] PeriodPriceCollection periodPrices)
         {
             if (periodPrices == null)
             {
@@ -51,9 +51,9 @@ namespace Info.Controllers.Prices
 
             try
             {
-                await _periodPriceService.AddListAsync(periodPrices);
+                IEnumerable<PeriodPrice> prices = await _periodPriceService.AddListAsync(periodPrices.PeriodPrices);
 
-                return Created("DefaultApi", string.Empty);
+                return Created("DefaultApi", prices);
             }
             catch (DuplicateExistsException duplicateExistsException)
             {
