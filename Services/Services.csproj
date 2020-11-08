@@ -15,4 +15,12 @@
       <ProjectReference Include="..\ExcelServices\ExcelServices.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="log4net" Version="2.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="log4net.config" />
+    </ItemGroup>
+
 </Project>

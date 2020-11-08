@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 using DataStorage;
 using DataStorage.Queries;
 using DTO;
 using DTO.Exceptions;
+using log4net;
 using NodaTime;
 
 namespace Services
 {
     public class PeriodPriceService : IPeriodPriceService
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         private readonly IPeriodPriceRepository _periodPriceRepository;
 
         private readonly IDuplicatePeriodPriceExistsQuery _duplicatePeriodPriceExistsQuery;
@@ -51,12 +55,12 @@ namespace Services
 
         public async Task<IEnumerable<PeriodPrice>> AddListAsync(IEnumerable<PeriodPrice> periodPrices)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
                 foreach (PeriodPrice periodPrice in periodPrices)
                 {
                     periodPrice.PeriodPriceId = Guid.NewGuid();
-                
+
                     bool exists = await _duplicatePeriodPriceExistsQuery.GetAsync(periodPrice);
 
                     if (!exists)
@@ -65,8 +69,11 @@ namespace Services
                         periodPrice.Id = id;
                     }
                 }
-                
-                scope.Complete();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                throw;
             }
 
             return periodPrices;
