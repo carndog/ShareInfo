@@ -64,10 +64,6 @@ namespace Services
                         int id = await _periodPriceRepository.AddAsync(periodPrice);
                         periodPrice.Id = id;
                     }
-                    else
-                    {
-                        throw new DuplicateExistsException();
-                    }
                 }
                 
                 scope.Complete();
