@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Castle.DynamicProxy.Generators.Emitters;
 using DTO;
 using DTO.Exceptions;
 using NodaTime;
@@ -53,7 +54,10 @@ namespace Info.Controllers.Prices
             {
                 IEnumerable<PeriodPrice> prices = await _periodPriceService.AddListAsync(periodPrices.PeriodPrices);
 
-                return Created("DefaultApi", prices);
+                return Created("DefaultApi", new PeriodPriceCollection
+                {
+                    PeriodPrices = prices
+                });
             }
             catch (DuplicateExistsException duplicateExistsException)
             {
