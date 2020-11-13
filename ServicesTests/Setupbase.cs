@@ -1,31 +1,21 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
-using NUnit.Framework;
 using ServicesTests.NodatimeHandlers;
 
 namespace ServicesTests
 {
-    [SetUpFixture]
-    public class GlobalSetup
+    public abstract class Setupbase
     {
-        [OneTimeSetUp]
-        public void Setup()
+        public abstract string TableName { get; protected set; }
+
+        public void Initialise()
         {
             Dapper.SqlMapper.AddTypeHandler(new LocalDateTimeTypeHandler());
             Dapper.SqlMapper.AddTypeHandler(new LocalDateTypeHandler());
 
-            string commandText = @"
-                DELETE FROM [EtoroClosedPosition]
-                DELETE FROM [EtoroTransaction]
-                DELETE FROM [HalifaxDividend]
-                DELETE FROM [HalifaxTransaction]
-                DELETE FROM [PeriodPrice]
-
-                DBCC CHECKIDENT ('EtoroClosedPosition', RESEED, 0)
-                DBCC CHECKIDENT ('EtoroTransaction', RESEED, 0)
-                DBCC CHECKIDENT ('HalifaxDividend', RESEED, 0)
-                DBCC CHECKIDENT ('HalifaxTransaction', RESEED, 0)
-                DBCC CHECKIDENT ('PeriodPrice', RESEED, 0)
+            string commandText = $@"
+                DELETE FROM [{TableName}]
+                DBCC CHECKIDENT ('{TableName}', RESEED, 0)
             ";
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
             using (SqlConnection connection = new SqlConnection(connectionString))

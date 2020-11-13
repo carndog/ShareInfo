@@ -10,7 +10,7 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class HalifaxDividendServiceTests
+    public class HalifaxDividendServiceTests : Setupbase
     {
         private HalifaxDividendService _service;
         
@@ -19,6 +19,8 @@ namespace ServicesTests
         [SetUp]
         public void Setup()
         {
+            Initialise();
+            
             _halifaxDividendRepository = new HalifaxDividendRepository();
             
             _service = new HalifaxDividendService(_halifaxDividendRepository,
@@ -85,5 +87,7 @@ namespace ServicesTests
                 ExDividendDate = new LocalDateTime(1997, 1, 1, 1, 0, 0),
             });
         }
+
+        public override string TableName { get; protected set; } = "HalifaxDividend";
     }
 }

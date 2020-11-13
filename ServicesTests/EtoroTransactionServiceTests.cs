@@ -10,7 +10,7 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class EtoroTransactionServiceTests
+    public class EtoroTransactionServiceTests : Setupbase
     {
         private EtoroTransactionService _service;
         
@@ -19,6 +19,8 @@ namespace ServicesTests
         [SetUp]
         public void Setup()
         {
+            Initialise();
+            
             _etoroTransactionRepository = new EtoroTransactionRepository();
             
             _service = new EtoroTransactionService(_etoroTransactionRepository,
@@ -93,5 +95,7 @@ namespace ServicesTests
                 RealizedEquityChange = 2000
             });
         }
+        
+        public override string TableName { get; protected set; } = "EtoroTransaction";
     }
 }

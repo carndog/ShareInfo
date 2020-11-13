@@ -11,18 +11,19 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class PeriodPriceServiceTests
+    public class PeriodPriceServiceTests : Setupbase
     {
         private PeriodPriceService _service;
         
         private PeriodPriceRepository _periodPriceRepository;
         private LocalDate _date;
 
+        public override string TableName { get; protected set; } = "PeriodPrice";
+
         [SetUp]
         public void Setup()
         {
-            GlobalSetup setup = new GlobalSetup();
-            setup.Setup();
+            Initialise();
             
             _periodPriceRepository = new PeriodPriceRepository();
             

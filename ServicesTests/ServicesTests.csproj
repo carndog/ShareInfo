@@ -33,8 +33,20 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+          <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+          <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Moq, Version=4.15.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920">
+          <HintPath>..\packages\Moq.4.15.1\lib\net45\Moq.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="mscorlib" />
@@ -75,7 +87,12 @@
           <Private>True</Private>
         </Reference>
         <Reference Include="System.ServiceProcess" />
+        <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Transactions" />
+        <Reference Include="System.Web" />
         <Reference Include="System.Xml" />
         <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
             <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
@@ -85,13 +102,15 @@
     <ItemGroup>
         <Compile Include="EtoroClosedPositionServiceTests.cs" />
         <Compile Include="EtoroTransactionServiceTests.cs" />
-        <Compile Include="GlobalSetup.cs" />
+        <Compile Include="Setupbase.cs" />
         <Compile Include="HalifaxDividendServiceTests.cs" />
         <Compile Include="HalifaxTransactionServiceTests.cs" />
         <Compile Include="NodatimeHandlers\LocalDateHandler.cs" />
         <Compile Include="NodatimeHandlers\LocalDateTimeHandler.cs" />
         <Compile Include="PeriodPriceServiceTests.cs" />
+        <Compile Include="PriceStreamServiceTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Utilities\IsLseMarketHoursTests.cs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\DataStorage\DataStorage.csproj">

@@ -10,7 +10,7 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class HalifaxTransactionServiceTests
+    public class HalifaxTransactionServiceTests : Setupbase
     {
         private HalifaxTransactionService _service;
         
@@ -19,6 +19,8 @@ namespace ServicesTests
         [SetUp]
         public void Setup()
         {
+            Initialise();
+            
             _halifaxTransactionRepository = new HalifaxTransactionRepository();
             
             _service = new HalifaxTransactionService(_halifaxTransactionRepository,
@@ -93,5 +95,7 @@ namespace ServicesTests
                 NetConsideration = 20.3m
             });
         }
+
+        public override string TableName { get; protected set; } = "HalifaxTransaction";
     }
 }

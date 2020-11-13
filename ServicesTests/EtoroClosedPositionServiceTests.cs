@@ -10,7 +10,7 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class EtoroClosedPositionServiceTests
+    public class EtoroClosedPositionServiceTests : Setupbase
     {
         private EtoroClosedPositionService _service;
         
@@ -19,6 +19,8 @@ namespace ServicesTests
         [SetUp]
         public void Setup()
         {
+            Initialise();
+            
             _etoroClosedPositionRepository = new EtoroClosedPositionRepository();
             
             _service = new EtoroClosedPositionService(_etoroClosedPositionRepository,
@@ -113,5 +115,7 @@ namespace ServicesTests
                 TakeProfitRate = 500
             });
         }
+
+        public override string TableName { get; protected set; } = "EtoroClosedPosition";
     }
 }
