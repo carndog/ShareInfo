@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using ServicesTests.NodatimeHandlers;
 
@@ -12,6 +14,7 @@ namespace ServicesTests
         {
             Dapper.SqlMapper.AddTypeHandler(new LocalDateTimeTypeHandler());
             Dapper.SqlMapper.AddTypeHandler(new LocalDateTypeHandler());
+            Dapper.SqlMapper.AddTypeMap(typeof(DateTime), DbType.DateTime2);
 
             string commandText = $@"
                 DELETE FROM [{TableName}]

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DataStorage;
 using DataStorage.Queries;
 using DTO;
+using DTO.Exceptions;
 using NodaTime;
 using NUnit.Framework;
 using Services;
@@ -10,14 +11,14 @@ using Services;
 namespace ServicesTests
 {
     [TestFixture]
-    public class PriceStreamServiceTests : Setupbase
+    public class PricesServiceTests : Setupbase
     {
-        private IPriceStreamService _service;
+        private IPricesService _service;
         
-        private PriceStreamRepository _priceStreamRepository;
+        private PriceRepository _priceStreamRepository;
         
         private ZonedDateTime _date;
-
+        
         private DateTime _dateTime;
 
         private string _timeZone;
@@ -27,15 +28,14 @@ namespace ServicesTests
         {
             Initialise();
             
-            _priceStreamRepository = new PriceStreamRepository();
+            _priceStreamRepository = new PriceRepository();
             
-            PriceStreamService priceStreamService = new PriceStreamService(
+            PricesService pricesService = new PricesService(
                 _priceStreamRepository,
-                new DuplicatePriceStreamExistsQuery(),
-                new IsMarketHoursFactory(),
-                new GetPriceStreamBySymbolQuery());
-            _service = new PriceStreamServiceDecorator(priceStreamService);
-
+                new DuplicatePriceExistsQuery());
+            
+            _service = new PricesServiceDecorator(pricesService);
+            
             LocalDateTime localDateTime = new LocalDateTime(2020, 1, 1, 10, 3, 0);
             _date = new ZonedDateTime(localDateTime, DateTimeZone.Utc, Offset.Zero);
             _dateTime = localDateTime.ToDateTimeUnspecified();
@@ -45,7 +45,7 @@ namespace ServicesTests
         [Test]
         public async Task Should_Insert_When_RepositoryEmpty()
         {
-            int id = await _service.AddAsync(new PriceStream
+            int id = await _service.AddAsync(new AssetPrice
             {
                Date = _date,
                Price = 12.56m,
@@ -56,7 +56,7 @@ namespace ServicesTests
                CurrentDateTime = _dateTime
             });
 
-            PriceStream price = await _priceStreamRepository.GetAsync(id);
+            AssetPrice price = await _priceStreamRepository.GetAsync(id);
             
             Assert.That(price.CurrentDateTime, Is.EqualTo(_date.LocalDateTime.ToDateTimeUnspecified()));
             Assert.That(price.TimeZone, Is.EqualTo(_date.Zone.ToString()));
@@ -74,7 +74,7 @@ namespace ServicesTests
         {
             CreateRecords();
 
-            int duplicate = await _service.AddAsync(new PriceStream
+            Assert.ThrowsAsync<DuplicateExistsException>(async () =>  await _service.AddAsync(new AssetPrice
             {
                 Date = _date,
                 Price = 12.56m,
@@ -83,16 +83,15 @@ namespace ServicesTests
                 Exchange = "London",
                 TimeZone = _timeZone,
                 CurrentDateTime = _dateTime
-            });
-
-            Assert.That(duplicate, Is.EqualTo(-1));
+            }));
+            
             int count = await _priceStreamRepository.CountAsync();
             Assert.That(count, Is.EqualTo(2));
         }
 
         private void CreateRecords()
         {
-            _priceStreamRepository.AddAsync(new PriceStream
+            _priceStreamRepository.AddAsync(new AssetPrice
             {
                 Date = _date,
                 Price = 12.56m,
@@ -103,7 +102,7 @@ namespace ServicesTests
                 CurrentDateTime = _dateTime
             });
 
-            _priceStreamRepository.AddAsync(new PriceStream
+            _priceStreamRepository.AddAsync(new AssetPrice
             {
                 Date = _date,
                 Price = 12.56m,
@@ -115,6 +114,6 @@ namespace ServicesTests
             });
         }
 
-        public override string TableName { get; protected set; } = "PriceStream";
+        public override string TableName { get; protected set; } = "Prices";
     }
 }

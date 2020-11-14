@@ -21,15 +21,15 @@ namespace Services
             _duplicatePriceExistsQuery = duplicatePriceExistsQuery;
         }
 
-        public async Task<int> AddAsync(AssetPrice assetPrice)
+        public async Task<int> AddAsync(AssetPrice price)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                bool exists = await _duplicatePriceExistsQuery.GetAsync(assetPrice);
+                bool exists = await _duplicatePriceExistsQuery.GetAsync(price);
 
                 if (!exists)
                 {
-                    int id = await _priceRepository.AddAsync(assetPrice).ConfigureAwait(false);
+                    int id = await _priceRepository.AddAsync(price).ConfigureAwait(false);
 
                     scope.Complete();
                     

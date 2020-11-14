@@ -18,9 +18,11 @@ namespace Info.Infrastructure
                 .LifestylePerWebRequest());
             
                 container.Register(
+                    Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesServiceDecorator>(),
                     Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
-                    Component.For<IPeriodPriceService>().LifestylePerWebRequest().ImplementedBy<PeriodPriceService>(),
+                    Component.For<IPriceStreamService>().LifestylePerWebRequest().ImplementedBy<PriceStreamServiceDecorator>(),
                     Component.For<IPriceStreamService>().LifestylePerWebRequest().ImplementedBy<PriceStreamService>(),
+                    Component.For<IPeriodPriceService>().LifestylePerWebRequest().ImplementedBy<PeriodPriceService>(),
                     Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
                     Component.For<IPeriodPriceRepository>().LifestylePerWebRequest().ImplementedBy<PeriodPriceRepository>(),
                     Component.For<IPriceStreamRepository>().LifestylePerWebRequest().ImplementedBy<PriceStreamRepository>(),

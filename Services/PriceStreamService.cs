@@ -45,7 +45,9 @@ namespace Services
 
                 IIsMarketHours isMarketHours = _marketHoursFactory.Create(priceStream.Exchange);
 
-                bool marketHours = isMarketHours == null || isMarketHours.Get(priceStream.CurrentDateTime);
+                LocalDateTime localDateTime = LocalDateTime.FromDateTime(priceStream.CurrentDateTime);
+                
+                bool marketHours = isMarketHours == null || isMarketHours.Get(localDateTime);
 
                 if (!marketHours)
                 {
@@ -76,9 +78,9 @@ namespace Services
             throw new PriceStreamNotFoundException();
         }
 
-        public async Task<LocalDate?> GetLatestAsync(string symbol)
+        public async Task<LocalDateTime?> GetLatestAsync(string symbol)
         {
-            LocalDate? latest = await _priceStreamRepository.GetLatestAsync(symbol);
+            LocalDateTime? latest = await _priceStreamRepository.GetLatestAsync(symbol);
             return latest;
         }
         

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using DTO;
 using DTO.Exceptions;
@@ -59,18 +58,18 @@ namespace Info.Controllers.Prices
         }
 
         [HttpGet]
-        [Route("{symbol}/latest")]
+        [Route("symbol/{symbol}/latest")]
         public async Task<IHttpActionResult> Get([FromUri] string symbol)
         {
-            LocalDate? latestDate = await _priceStreamService.GetLatestAsync(symbol);
-            return Ok(new LatestPeriodPrice
+            LocalDateTime? latestDate = await _priceStreamService.GetLatestAsync(symbol);
+            return Ok(new LatestDateTimePriceStream
             {
                 Date = latestDate
             });
         }
         
         [HttpGet]
-        [Route("{symbol}")]
+        [Route("symbol/{symbol}")]
         public async Task<IHttpActionResult> GetAll([FromUri] string symbol)
         {
             PriceStreamCollection periodPrices = await _priceStreamService.GetAsync(symbol);

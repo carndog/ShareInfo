@@ -6,6 +6,6 @@ namespace DataStorage
 {
     public interface IPriceStreamRepository : IRepository<PriceStream>
     {
-        Task<LocalDate?> GetLatestAsync(string symbol);
+        Task<LocalDateTime?> GetLatestAsync(string symbol);
     }
 }

@@ -21,10 +21,11 @@ namespace DataStorage.Queries
                            Exchange,
                            Price, 
                            OriginalPrice, 
-                           Date
+                           CurrentDateTime,
+                           TimeZone
                       FROM [dbo].[PriceStream]  
                     WHERE symbol = @Symbol
-                    ORDER BY date
+                    ORDER BY CurrentDateTime
                 ";
 
                 priceStreams = await connection.QueryAsync<PriceStream>(

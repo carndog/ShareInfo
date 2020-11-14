@@ -10,7 +10,7 @@ namespace Services
         
         Task<PriceStream> GetAsync(int id);
         
-        Task<LocalDate?> GetLatestAsync(string symbol);
+        Task<LocalDateTime?> GetLatestAsync(string symbol);
         
         Task<PriceStreamCollection> GetAsync(string symbol);
     }

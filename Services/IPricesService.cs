@@ -5,7 +5,7 @@ namespace Services
 {
     public interface IPricesService
     {
-        Task<int> AddAsync(AssetPrice assetPrice);
+        Task<int> AddAsync(AssetPrice price);
         
         Task<AssetPrice> GetAsync(int id);
     }

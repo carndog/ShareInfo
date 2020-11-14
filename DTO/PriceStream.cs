@@ -19,8 +19,8 @@ namespace DTO
 
         public ZonedDateTime Date { get; set; }
 
-        public LocalDateTime CurrentDateTime => Date.LocalDateTime;
-        
-        public string TimeZone => Date.Zone.ToString();
+        public DateTime CurrentDateTime { get; set; }
+
+        public string TimeZone { get; set; }
     }
 }

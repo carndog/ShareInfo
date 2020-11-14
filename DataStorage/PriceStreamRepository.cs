@@ -71,16 +71,16 @@ namespace DataStorage
             return priceStream;
         }
         
-        public async Task<LocalDate?> GetLatestAsync(string symbol)
+        public async Task<LocalDateTime?> GetLatestAsync(string symbol)
         {
-            LocalDate? latest;
+            LocalDateTime? latest;
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 string query = @"
-                    SELECT ISNULL(MAX(date), '1900-01-01') as latest
+                    SELECT ISNULL(MAX(currentDateTime), '1900-01-01 00:00:00.0000000') as latest
                       FROM [dbo].[PriceStream]  WHERE symbol = @symbol";
 
-                latest = await connection.QuerySingleAsync<LocalDate?>(query, new {symbol});
+                latest = await connection.QuerySingleAsync<LocalDateTime?>(query, new {symbol});
             }
 
             return latest;

@@ -2,8 +2,8 @@
 
 namespace DTO
 {
-    public class LatestPeriodPrice
+    public class LatestDateTimePriceStream
     {
-        public LocalDate? Date  { get; set; }
+        public LocalDateTime? Date  { get; set; }
     }
 }
