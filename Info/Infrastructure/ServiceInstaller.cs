@@ -20,6 +20,7 @@ namespace Info.Infrastructure
                 container.Register(
                     Component.For<IPricesService>().LifestylePerWebRequest().ImplementedBy<PricesService>(),
                     Component.For<IPeriodPriceService>().LifestylePerWebRequest().ImplementedBy<PeriodPriceService>(),
+                    Component.For<IPriceStreamService>().LifestylePerWebRequest().ImplementedBy<PriceStreamService>(),
                     Component.For<IPriceRepository>().LifestylePerWebRequest().ImplementedBy<PriceRepository>(),
                     Component.For<IPeriodPriceRepository>().LifestylePerWebRequest().ImplementedBy<PeriodPriceRepository>(),
                     Component.For<IPriceStreamRepository>().LifestylePerWebRequest().ImplementedBy<PriceStreamRepository>(),
@@ -27,6 +28,7 @@ namespace Info.Infrastructure
                     Component.For<IDuplicatePeriodPriceExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePeriodPriceExistsQuery>(),
                     Component.For<IDuplicatePriceStreamExistsQuery>().LifestylePerWebRequest().ImplementedBy<DuplicatePriceStreamExistsQuery>(),
                     Component.For<IGetPeriodPriceBySymbolQuery>().LifestylePerWebRequest().ImplementedBy<GetPeriodPriceBySymbolQuery>(),
+                    Component.For<IGetPriceStreamBySymbolQuery>().LifestylePerWebRequest().ImplementedBy<GetPriceStreamBySymbolQuery>(),
                     Component.For<IGetDateTime>().LifestylePerWebRequest().ImplementedBy<GetDateTime>(),
                     Component.For<IIsMarketHoursFactory>().LifestylePerWebRequest().ImplementedBy<IsMarketHoursFactory>()
                 );

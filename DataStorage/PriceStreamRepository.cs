@@ -20,12 +20,12 @@ namespace DataStorage
 
                     INSERT INTO [dbo].[PriceStream] 
                     (
-                        [PriceStreamId], [Exchange], [Symbol], [Price], [OriginalPrice], [Date]
+                        [PriceStreamId], [Exchange], [Symbol], [Price], [OriginalPrice], [CurrentDateTime], [TimeZone]
                     ) 
                     OUTPUT INSERTED.Id INTO @InsertedRows
                     VALUES 
                     (
-                        @PriceStreamId, @Exchange, @Symbol, @Price, @OriginalPrice, @Date
+                        @PriceStreamId, @Exchange, @Symbol, @Price, @OriginalPrice, @CurrentDateTime, @TimeZone
                     );
 
                     SELECT Id FROM @InsertedRows
@@ -34,12 +34,13 @@ namespace DataStorage
                 IEnumerable<int> results = await db.QueryAsync<int>(insertQuery,
                     new
                     {
-                        PeriodPriceId = priceStream.PriceStreamId,
+                        priceStream.PriceStreamId,
                         priceStream.Exchange,
                         priceStream.Symbol,
                         priceStream.Price,
                         priceStream.OriginalPrice,
-                        priceStream.Date
+                        priceStream.CurrentDateTime,
+                        priceStream.TimeZone
                     });
                 int id = results.Single();
 
@@ -60,7 +61,8 @@ namespace DataStorage
                         [Symbol],
                         [Price],
                         [OriginalPrice],
-                        [Date]
+                        [CurrentDateTime],
+                        [TimeZone]
                       FROM [dbo].[PriceStream]  WHERE Id = @Id";
 
                 priceStream = await connection.QuerySingleAsync<PriceStream>(query, new {Id = id});

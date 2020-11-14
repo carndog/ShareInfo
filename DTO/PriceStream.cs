@@ -17,6 +17,10 @@ namespace DTO
         
         public decimal OriginalPrice { get; set; }
 
-        public LocalDateTime Date  { get; set; }
+        public ZonedDateTime Date { get; set; }
+
+        public LocalDateTime CurrentDateTime => Date.LocalDateTime;
+        
+        public string TimeZone => Date.Zone.ToString();
     }
 }

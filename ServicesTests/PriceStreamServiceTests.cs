@@ -15,7 +15,7 @@ namespace ServicesTests
         
         private PriceStreamRepository _priceStreamRepository;
         
-        private LocalDateTime _date;
+        private ZonedDateTime _date;
 
         [SetUp]
         public void Setup()
@@ -27,9 +27,11 @@ namespace ServicesTests
             _service = new PriceStreamService(
                 _priceStreamRepository,
                 new DuplicatePriceStreamExistsQuery(),
-                new IsMarketHoursFactory());
+                new IsMarketHoursFactory(),
+                new GetPriceStreamBySymbolQuery());
             
-            _date = new LocalDateTime(2020, 1, 1, 10, 3, 0);
+            LocalDateTime localDateTime = new LocalDateTime(2020, 1, 1, 10, 3, 0);
+            _date = new ZonedDateTime(localDateTime, DateTimeZone.Utc, Offset.Zero);
         }
 
         [Test]
@@ -39,15 +41,16 @@ namespace ServicesTests
             {
                Date = _date,
                Price = 12.56m,
-               OriginalPrice = 12.5623545m,
+               OriginalPrice = 12.56237843m,
                Symbol = "HHH",
                Exchange = "London"
             });
 
             PriceStream price = await _priceStreamRepository.GetAsync(id);
+            
             Assert.That(price.Date, Is.EqualTo(_date));
             Assert.That(price.Price, Is.EqualTo(12.56m));
-            Assert.That(price.OriginalPrice, Is.EqualTo(12.5623545m));
+            Assert.That(price.OriginalPrice, Is.EqualTo(12.5624m));
             Assert.That(price.Symbol, Is.EqualTo("HHH"));
             Assert.That(price.Exchange, Is.EqualTo("London"));
 

@@ -11,7 +11,7 @@ using NodaTime;
 
 namespace Services
 {
-    public class PriceStreamService
+    public class PriceStreamService : IPriceStreamService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         
@@ -20,15 +20,19 @@ namespace Services
         private readonly IDuplicatePriceStreamExistsQuery _duplicatePriceStreamExistsQuery;
 
         private readonly IIsMarketHoursFactory _marketHoursFactory;
+        
+        private readonly IGetPriceStreamBySymbolQuery _getPriceStreamBySymbolQuery;
 
         public PriceStreamService(
             IPriceStreamRepository priceStreamRepository, 
             IDuplicatePriceStreamExistsQuery duplicatePriceStreamExistsQuery, 
-            IIsMarketHoursFactory marketHoursFactory)
+            IIsMarketHoursFactory marketHoursFactory, 
+            IGetPriceStreamBySymbolQuery getPriceStreamBySymbolQuery)
         {
             _priceStreamRepository = priceStreamRepository;
             _duplicatePriceStreamExistsQuery = duplicatePriceStreamExistsQuery;
             _marketHoursFactory = marketHoursFactory;
+            _getPriceStreamBySymbolQuery = getPriceStreamBySymbolQuery;
         }
 
         public async Task<int> AddAsync(PriceStream priceStream)
@@ -41,7 +45,14 @@ namespace Services
 
                 IIsMarketHours isMarketHours = _marketHoursFactory.Create(priceStream.Exchange);
 
-                if (!exists && (isMarketHours == null || isMarketHours.Get(priceStream.Date)))
+                bool marketHours = isMarketHours == null || isMarketHours.Get(priceStream.CurrentDateTime);
+
+                if (!marketHours)
+                {
+                    throw new OutsideMarketHoursException();
+                }
+                
+                if (!exists)
                 {
                     int id = await _priceStreamRepository.AddAsync(priceStream).ConfigureAwait(false);
 
@@ -62,13 +73,18 @@ namespace Services
                 return priceStream;
             }
 
-            throw new PeriodPriceNotFoundException();
+            throw new PriceStreamNotFoundException();
         }
 
         public async Task<LocalDate?> GetLatestAsync(string symbol)
         {
             LocalDate? latest = await _priceStreamRepository.GetLatestAsync(symbol);
             return latest;
+        }
+        
+        public async Task<PriceStreamCollection> GetAsync(string symbol)
+        {
+            return await _getPriceStreamBySymbolQuery.GetAsync(symbol);
         }
     }
 }

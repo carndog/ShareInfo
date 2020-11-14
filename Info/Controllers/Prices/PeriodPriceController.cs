@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Castle.DynamicProxy.Generators.Emitters;
 using DTO;
 using DTO.Exceptions;
 using NodaTime;

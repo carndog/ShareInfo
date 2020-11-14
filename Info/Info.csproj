@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Prices\PriceStreamController.cs" />
     <Compile Include="Controllers\Prices\PeriodPriceController.cs" />
     <Compile Include="Controllers\Prices\PricesController.cs" />
     <Compile Include="Controllers\StatusController.cs" />

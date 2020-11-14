@@ -18,7 +18,7 @@ namespace DataStorage.Queries
                       COUNT(*)
                       FROM [dbo].[PriceStream]  
                     WHERE PriceStreamId = @PriceStreamId OR 
-                      (Symbol = @Symbol AND Date = @Date)
+                      (Symbol = @Symbol AND CurrentDateTime = @CurrentDateTime AND TimeZone = @TimeZone)
                 ";
 
                 count = await connection.QuerySingleAsync<int>(
@@ -27,7 +27,8 @@ namespace DataStorage.Queries
                     {
                         priceStream.PriceStreamId,
                         priceStream.Symbol,
-                        priceStream.Date
+                        priceStream.CurrentDateTime,
+                        priceStream.TimeZone
                     });
             }
 

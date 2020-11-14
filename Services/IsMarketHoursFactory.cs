@@ -4,12 +4,15 @@
     {
         public IIsMarketHours Create(string exchange)
         {
-            if (exchange == "London")
+            switch (exchange)
             {
-                return new IsLseMarketHours();
+                case "London":
+                    return new IsLseMarketHours();
+                case "NewYork":
+                    return new IsNewYorkMarketHours();
+                default:
+                    return null;
             }
-
-            return null;
         }
     }
 }
