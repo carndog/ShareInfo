@@ -7,7 +7,7 @@ namespace SharePriceListCore.Controllers;
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = {
-        "Fucking Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "Fucking Freezing"
+        "Really Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "Well Freezing"
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
