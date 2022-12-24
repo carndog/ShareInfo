@@ -1,12 +1,13 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using DTO;
+﻿using DTO;
 using DTO.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 
-namespace Info.Controllers.Prices
+namespace SharePriceListCore.Controllers.Prices
 {
-    public class PricesController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class PricesController : ControllerBase
     {
         private readonly IPricesService _pricesService;
 
@@ -16,7 +17,7 @@ namespace Info.Controllers.Prices
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> PostAsync([FromBody]AssetPrice price)
+        public async Task<ActionResult<AssetPrice>> PostAsync([FromBody]AssetPrice? price)
         {
             if (price == null)
             {
@@ -37,8 +38,8 @@ namespace Info.Controllers.Prices
             }
         }
         
-        [HttpGet]
-        public async Task<IHttpActionResult> Get([FromUri]int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<AssetPrice>> Get(int id)
         {
             try
             {

@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using DTO;
+﻿using DTO;
 using DTO.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Services;
 
-namespace Info.Controllers.Prices
+namespace SharePriceListCore.Controllers.Prices
 {
-    [RoutePrefix("pricestream")]
-    public class PriceStreamController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class PriceStreamController : ControllerBase
     {
         private readonly IPriceStreamService _priceStreamService;
 
@@ -18,7 +18,7 @@ namespace Info.Controllers.Prices
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> PostAsync([FromBody] PriceStream priceStream)
+        public async Task<ActionResult<PriceStream>> PostAsync([FromBody] PriceStream? priceStream)
         {
             if (priceStream == null)
             {
@@ -43,8 +43,8 @@ namespace Info.Controllers.Prices
             }
         }
 
-        [HttpGet]
-        public async Task<IHttpActionResult> Get([FromUri] int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PriceStream>> Get(int id)
         {
             try
             {
@@ -57,9 +57,8 @@ namespace Info.Controllers.Prices
             }
         }
 
-        [HttpGet]
-        [Route("symbol/{symbol}/latest")]
-        public async Task<IHttpActionResult> Get([FromUri] string symbol)
+        [HttpGet("symbol/{symbol}/latest")]
+        public async Task<ActionResult<LatestDateTimePriceStream>> Get(string symbol)
         {
             LocalDateTime? latestDate = await _priceStreamService.GetLatestAsync(symbol);
             return Ok(new LatestDateTimePriceStream
@@ -68,9 +67,8 @@ namespace Info.Controllers.Prices
             });
         }
         
-        [HttpGet]
-        [Route("symbol/{symbol}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] string symbol)
+        [HttpGet("symbol/{symbol}")]
+        public async Task<ActionResult<PriceStreamCollection>> GetAll(string symbol)
         {
             PriceStreamCollection periodPrices = await _priceStreamService.GetAsync(symbol);
             return Ok(periodPrices);

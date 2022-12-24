@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using DTO;
+﻿using DTO;
 using DTO.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Services;
 
-namespace Info.Controllers.Prices
+namespace SharePriceListCore.Controllers.Prices
 {
-    [RoutePrefix("periodprice")]
-    public class PeriodPriceController : ApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class PeriodPriceController : ControllerBase
     {
         private readonly IPeriodPriceService _periodPriceService;
 
@@ -19,7 +18,7 @@ namespace Info.Controllers.Prices
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> PostAsync([FromBody] PeriodPrice periodPrice)
+        public async Task<ActionResult<PeriodPrice>> PostAsync([FromBody] PeriodPrice? periodPrice)
         {
             if (periodPrice == null)
             {
@@ -40,9 +39,8 @@ namespace Info.Controllers.Prices
             }
         }
         
-        [HttpPost]
-        [Route("load")]
-        public async Task<IHttpActionResult> LoadAsync([FromBody] PeriodPriceCollection periodPrices)
+        [HttpPost("load")]
+        public async Task<ActionResult<IEnumerable<PeriodPrice>>> LoadAsync([FromBody] PeriodPriceCollection? periodPrices)
         {
             if (periodPrices == null)
             {
@@ -64,8 +62,8 @@ namespace Info.Controllers.Prices
             }
         }
 
-        [HttpGet]
-        public async Task<IHttpActionResult> Get([FromUri] int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PeriodPrice>> Get(int id)
         {
             try
             {
@@ -78,9 +76,8 @@ namespace Info.Controllers.Prices
             }
         }
 
-        [HttpGet]
-        [Route("{symbol}/latest")]
-        public async Task<IHttpActionResult> Get([FromUri] string symbol)
+        [HttpGet("{symbol}/latest")]
+        public async Task<ActionResult<LocalDate?>> Get(string symbol)
         {
             LocalDate? latestDate = await _periodPriceService.GetLatestAsync(symbol);
             return Ok(new LatestPeriodPrice
@@ -89,9 +86,8 @@ namespace Info.Controllers.Prices
             });
         }
         
-        [HttpGet]
-        [Route("{symbol}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] string symbol)
+        [HttpGet("{symbol}")]
+        public async Task<ActionResult<PeriodPriceCollection>> GetAll(string symbol)
         {
             PeriodPriceCollection periodPrices = await _periodPriceService.GetAsync(symbol);
             return Ok(periodPrices);
