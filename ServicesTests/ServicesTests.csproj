@@ -13,6 +13,7 @@
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>10</LangVersion>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -103,8 +104,9 @@
     <ItemGroup>
         <Compile Include="EtoroClosedPositionServiceTests.cs" />
         <Compile Include="EtoroTransactionServiceTests.cs" />
+        <Compile Include="GlobalUsings.cs" />
         <Compile Include="PricesServiceTests.cs" />
-        <Compile Include="Setupbase.cs" />
+        <Compile Include="SetupBase.cs" />
         <Compile Include="HalifaxDividendServiceTests.cs" />
         <Compile Include="HalifaxTransactionServiceTests.cs" />
         <Compile Include="NodatimeHandlers\LocalDateHandler.cs" />

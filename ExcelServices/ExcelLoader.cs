@@ -26,16 +26,15 @@ namespace ExcelServices
             
             string path = Path.Combine(directoryName, filename);
 
-            ISheet sheet;
             using (FileStream stream = new FileStream(
-                path,
-                FileMode.Open))
+                       path,
+                       FileMode.Open))
             {
                 stream.Position = 0;
 
                 XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
 
-                sheet = xssWorkbook.GetSheetAt(mapping.SheetIndex);
+                ISheet sheet = xssWorkbook.GetSheetAt(mapping.SheetIndex);
 
                 IRow headerRow = sheet.GetRow(mapping.ExpectedHeaderRowIndex);
                 
@@ -63,7 +62,7 @@ namespace ExcelServices
             return objects;
         }
 
-        private static int ValidateHeaders(ExcelMapping mapping, int cellCount, IRow headerRow)
+        private static void ValidateHeaders(ExcelMapping mapping, int cellCount, IRow headerRow)
         {
             for (int cellIndex = 0; cellIndex < cellCount; cellIndex++)
             {
@@ -79,8 +78,6 @@ namespace ExcelServices
                     }
                 }
             }
-
-            return cellCount;
         }
 
         private static void AssignProperties(ExcelMapping mapping, IRow row, int cellCount, object loadedObject)

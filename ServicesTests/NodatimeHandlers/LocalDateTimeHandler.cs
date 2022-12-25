@@ -1,25 +1,21 @@
-﻿using System;
-using System.Data;
-using Dapper;
-using NodaTime;
+﻿using Dapper;
 
-namespace ServicesTests.NodatimeHandlers
+namespace ServicesTests.NodatimeHandlers;
+
+public class LocalDateTimeTypeHandler : SqlMapper.TypeHandler<LocalDateTime>
 {
-    public class LocalDateTimeTypeHandler : SqlMapper.TypeHandler<LocalDateTime>
+    public override LocalDateTime Parse(object value)
     {
-        public override LocalDateTime Parse(object value)
+        if (value is DateTime time)
         {
-            if (value is DateTime)
-            {
-                return LocalDateTime.FromDateTime((DateTime)value);
-            }
-
-            throw new DataException($"Unable to convert {value} to LocalDateTime");
+            return LocalDateTime.FromDateTime(time);
         }
 
-        public override void SetValue(IDbDataParameter parameter, LocalDateTime value)
-        {
-            parameter.Value = value.ToDateTimeUnspecified();
-        }
+        throw new DataException($"Unable to convert {value} to LocalDateTime");
+    }
+
+    public override void SetValue(IDbDataParameter parameter, LocalDateTime value)
+    {
+        parameter.Value = value.ToDateTimeUnspecified();
     }
 }
