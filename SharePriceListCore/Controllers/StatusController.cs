@@ -6,6 +6,7 @@ namespace SharePriceListCore.Controllers
     [Route("[controller]")]
     public class StatusController : ControllerBase
     {
+        [HttpGet]
         public async Task<string> GetStatusAsync()
         {
             return await Task.FromResult("Hello");

@@ -1,7 +1,4 @@
-﻿USE [Shares]
-
-GO
-IF NOT EXISTS (select * from sys.objects where name = 'Prices' and type_desc = 'USER_TABLE')
+﻿IF NOT EXISTS (select * from sys.objects where name = 'Prices' and type_desc = 'USER_TABLE')
     BEGIN
         CREATE TABLE [dbo].[Prices](
                                        [Id] [int] IDENTITY(1,1) NOT NULL,

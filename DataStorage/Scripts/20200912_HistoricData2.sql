@@ -1,6 +1,4 @@
-﻿USE [Shares]
-
-IF EXISTS (select * from sys.objects where name = 'EtoroClosedPosition' and type_desc = 'USER_TABLE')
+﻿IF EXISTS (select * from sys.objects where name = 'EtoroClosedPosition' and type_desc = 'USER_TABLE')
     BEGIN
         DROP TABLE [dbo].[EtoroClosedPosition]
         

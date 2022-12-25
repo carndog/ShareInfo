@@ -7,7 +7,6 @@ using Services.Utilities;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddScoped<PricesService>();
 builder.Services.AddScoped<IPricesService>(provider => 
     new PricesServiceDecorator(provider.GetRequiredService<IPricesService>()));
