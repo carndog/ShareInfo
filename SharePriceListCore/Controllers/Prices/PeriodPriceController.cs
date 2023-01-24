@@ -10,11 +10,14 @@ namespace SharePriceListCore.Controllers.Prices
     [Route("[controller]")]
     public class PeriodPriceController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+        
         private readonly IPeriodPriceService _periodPriceService;
 
-        public PeriodPriceController(IPeriodPriceService periodPriceService)
+        public PeriodPriceController(IPeriodPriceService periodPriceService, IConfiguration configuration)
         {
             _periodPriceService = periodPriceService;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -89,6 +92,7 @@ namespace SharePriceListCore.Controllers.Prices
         [HttpGet("{symbol}")]
         public async Task<ActionResult<PeriodPriceCollection>> GetAll(string symbol)
         {
+            string connectionString = _configuration.GetConnectionString("connectionString");
             PeriodPriceCollection periodPrices = await _periodPriceService.GetAsync(symbol);
             return Ok(periodPrices);
         }
