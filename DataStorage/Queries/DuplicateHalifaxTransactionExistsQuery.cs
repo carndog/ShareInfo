@@ -5,12 +5,19 @@ using DTO;
 
 namespace DataStorage.Queries
 {
-    public class DuplicateHalifaxTransactionExistsQuery : Database, IDuplicateHalifaxTransactionExistsQuery
+    public class DuplicateHalifaxTransactionExistsQuery : IDuplicateHalifaxTransactionExistsQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public DuplicateHalifaxTransactionExistsQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<bool> GetAsync(HalifaxTransaction transaction)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 

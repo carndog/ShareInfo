@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class PricesServiceTests : SetupBase
@@ -17,12 +20,17 @@ public class PricesServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
             
-        _priceStreamRepository = new PriceRepository();
+        _priceStreamRepository = new PriceRepository(databaseMock.Object);
             
         PricesService pricesService = new PricesService(
             _priceStreamRepository,
-            new DuplicatePriceExistsQuery());
+            new DuplicatePriceExistsQuery(databaseMock.Object));
             
         _service = new PricesServiceDecorator(pricesService);
             

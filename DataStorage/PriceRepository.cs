@@ -10,9 +10,16 @@ namespace DataStorage
 {
     public class PriceRepository : Repository, IPriceRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public PriceRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(AssetPrice price)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -61,7 +68,7 @@ namespace DataStorage
         public async Task<AssetPrice> GetAsync(int id)
         {
             AssetPrice price;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -99,5 +106,7 @@ namespace DataStorage
         {
             return await base.CountAsync("Prices");
         }
+        
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

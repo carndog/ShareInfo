@@ -6,12 +6,19 @@ using DTO.Exceptions;
 
 namespace DataStorage.Queries
 {
-    public class DuplicatePeriodPriceExistsQuery : Database, IDuplicatePeriodPriceExistsQuery
+    public class DuplicatePeriodPriceExistsQuery : IDuplicatePeriodPriceExistsQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public DuplicatePeriodPriceExistsQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<bool> GetAsync(PeriodPrice periodPrice)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 

@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class EtoroClosedPositionServiceTests : SetupBase
@@ -11,11 +14,16 @@ public class EtoroClosedPositionServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
-            
-        _etoroClosedPositionRepository = new EtoroClosedPositionRepository();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
+
+        _etoroClosedPositionRepository = new EtoroClosedPositionRepository(databaseMock.Object);
             
         _service = new EtoroClosedPositionService(_etoroClosedPositionRepository,
-            new DuplicateEtoroClosedPositionExistsQuery());
+            new DuplicateEtoroClosedPositionExistsQuery(databaseMock.Object));
     }
 
     [Test]

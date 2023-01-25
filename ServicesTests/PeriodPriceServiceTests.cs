@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Moq;
+using Microsoft.Extensions.Configuration;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class PeriodPriceServiceTests : SetupBase
@@ -14,13 +17,18 @@ public class PeriodPriceServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
             
-        _periodPriceRepository = new PeriodPriceRepository();
+        _periodPriceRepository = new PeriodPriceRepository(databaseMock.Object);
             
         _service = new PeriodPriceService(
             _periodPriceRepository,
-            new DuplicatePeriodPriceExistsQuery(),
-            new GetPeriodPriceBySymbolQuery());
+            new DuplicatePeriodPriceExistsQuery(databaseMock.Object),
+            new GetPeriodPriceBySymbolQuery(new GetDatabase(Mock.Of<IConfiguration>())));
             
         _date = new LocalDate(2020, 1, 1);
     }

@@ -1,4 +1,8 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class EtoroTransactionServiceTests : SetupBase
@@ -11,11 +15,16 @@ public class EtoroTransactionServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
-            
-        _etoroTransactionRepository = new EtoroTransactionRepository();
+
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
+
+        _etoroTransactionRepository = new EtoroTransactionRepository(databaseMock.Object);
             
         _service = new EtoroTransactionService(_etoroTransactionRepository,
-            new DuplicateDuplicateEtoroTransactionExistsQuery());
+            new DuplicateDuplicateEtoroTransactionExistsQuery(databaseMock.Object));
     }
 
     [Test]

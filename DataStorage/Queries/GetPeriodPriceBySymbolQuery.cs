@@ -7,12 +7,19 @@ using DTO;
 
 namespace DataStorage.Queries
 {
-    public class GetPeriodPriceBySymbolQuery : Database, IGetPeriodPriceBySymbolQuery
+    public class GetPeriodPriceBySymbolQuery : IGetPeriodPriceBySymbolQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public GetPeriodPriceBySymbolQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+        
         public async Task<PeriodPriceCollection> GetAsync(string symbol)
         {
             IEnumerable<PeriodPrice> periodPrices;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT Id, 

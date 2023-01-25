@@ -11,9 +11,16 @@ namespace DataStorage
 {
     public class PriceStreamRepository : Repository, IPriceStreamRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public PriceStreamRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(PriceStream priceStream)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -51,7 +58,7 @@ namespace DataStorage
         public async Task<PriceStream> GetAsync(int id)
         {
             PriceStream priceStream;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -74,7 +81,7 @@ namespace DataStorage
         public async Task<LocalDateTime?> GetLatestAsync(string symbol)
         {
             LocalDateTime? latest;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT ISNULL(MAX(currentDateTime), '1900-01-01 00:00:00.0000000') as latest
@@ -95,5 +102,7 @@ namespace DataStorage
         {
             return await base.CountAsync("PriceStream");
         }
+
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

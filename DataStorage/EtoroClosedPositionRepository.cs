@@ -10,9 +10,16 @@ namespace DataStorage
 {
     public class EtoroClosedPositionRepository : Repository, IEtoroClosedPositionRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public EtoroClosedPositionRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(EtoroClosedPosition position)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -58,7 +65,7 @@ namespace DataStorage
         public async Task<EtoroClosedPosition> GetAsync(int id)
         {
             EtoroClosedPosition position;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -92,5 +99,7 @@ namespace DataStorage
         {
             return await base.CountAsync("EtoroClosedPosition");
         }
+        
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

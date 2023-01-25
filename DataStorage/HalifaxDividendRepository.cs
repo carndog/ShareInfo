@@ -10,9 +10,16 @@ namespace DataStorage
 {
     public class HalifaxDividendRepository : Repository, IHalifaxDividendRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public HalifaxDividendRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(HalifaxDividend transaction)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -49,7 +56,7 @@ namespace DataStorage
         public async Task<HalifaxDividend> GetAsync(int id)
         {
             HalifaxDividend transaction;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -76,5 +83,7 @@ namespace DataStorage
         {
             return await base.CountAsync("HalifaxDividend");
         }
+        
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

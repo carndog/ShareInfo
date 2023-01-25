@@ -5,12 +5,19 @@ using DTO;
 
 namespace DataStorage.Queries
 {
-    public class DuplicateDuplicateEtoroTransactionExistsQuery : Database, IDuplicateEtoroTransactionExistsQuery
+    public class DuplicateDuplicateEtoroTransactionExistsQuery : IDuplicateEtoroTransactionExistsQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public DuplicateDuplicateEtoroTransactionExistsQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<bool> GetAsync(EtoroTransaction transaction)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 

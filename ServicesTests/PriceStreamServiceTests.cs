@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class PriceStreamServiceTests : SetupBase
@@ -17,14 +20,19 @@ public class PriceStreamServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
             
-        _priceStreamRepository = new PriceStreamRepository();
+        _priceStreamRepository = new PriceStreamRepository(databaseMock.Object);
             
         PriceStreamService priceStreamService = new PriceStreamService(
             _priceStreamRepository,
-            new DuplicatePriceStreamExistsQuery(),
+            new DuplicatePriceStreamExistsQuery(databaseMock.Object),
             new IsMarketHoursFactory(),
-            new GetPriceStreamBySymbolQuery());
+            new GetPriceStreamBySymbolQuery(databaseMock.Object));
         _service = new PriceStreamServiceDecorator(priceStreamService);
 
         LocalDateTime localDateTime = new LocalDateTime(2020, 1, 1, 10, 3, 0);

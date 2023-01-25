@@ -10,9 +10,16 @@ namespace DataStorage
 {
     public class EtoroTransactionRepository : Repository, IEtoroTransactionRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public EtoroTransactionRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(EtoroTransaction transaction)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -51,7 +58,7 @@ namespace DataStorage
         public async Task<EtoroTransaction> GetAsync(int id)
         {
             EtoroTransaction transaction;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -80,5 +87,7 @@ namespace DataStorage
         {
             return await base.CountAsync("EtoroTransaction");
         }
+        
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

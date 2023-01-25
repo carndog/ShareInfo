@@ -5,12 +5,19 @@ using DTO;
 
 namespace DataStorage.Queries
 {
-    public class DuplicateHalifaxDividendExistsQuery : Database, IDuplicateHalifaxDividendExistsQuery
+    public class DuplicateHalifaxDividendExistsQuery : IDuplicateHalifaxDividendExistsQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public DuplicateHalifaxDividendExistsQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<bool> GetAsync(HalifaxDividend dividend)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 

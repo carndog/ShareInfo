@@ -24,6 +24,7 @@ builder.Services.AddScoped<IGetPeriodPriceBySymbolQuery, GetPeriodPriceBySymbolQ
 builder.Services.AddScoped<IGetPriceStreamBySymbolQuery, GetPriceStreamBySymbolQuery>();
 builder.Services.AddScoped<IGetDateTime, GetDateTime>();
 builder.Services.AddScoped<IIsMarketHoursFactory, IsMarketHoursFactory>();
+builder.Services.AddScoped<IGetDatabase, GetDatabase>();
 
 DapperNodaTimeSetup.Register();
 

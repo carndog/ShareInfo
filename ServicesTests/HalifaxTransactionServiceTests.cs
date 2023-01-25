@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class HalifaxTransactionServiceTests : SetupBase
@@ -11,11 +14,16 @@ public class HalifaxTransactionServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
             
-        _halifaxTransactionRepository = new HalifaxTransactionRepository();
+        _halifaxTransactionRepository = new HalifaxTransactionRepository(databaseMock.Object);
             
         _service = new HalifaxTransactionService(_halifaxTransactionRepository,
-            new DuplicateHalifaxTransactionExistsQuery());
+            new DuplicateHalifaxTransactionExistsQuery(databaseMock.Object));
     }
 
     [Test]

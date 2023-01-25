@@ -11,9 +11,16 @@ namespace DataStorage
 {
     public class PeriodPriceRepository : Repository, IPeriodPriceRepository
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public PeriodPriceRepository(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<int> AddAsync(PeriodPrice periodPrice)
         {
-            using (IDbConnection db = new SqlConnection(ConnectionString))
+            using (IDbConnection db = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string insertQuery = @"
                     DECLARE @InsertedRows AS TABLE (Id int);
@@ -53,7 +60,7 @@ namespace DataStorage
         public async Task<PeriodPrice> GetAsync(int id)
         {
             PeriodPrice periodPrice;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 
@@ -78,7 +85,7 @@ namespace DataStorage
         public async Task<LocalDate?> GetLatestAsync(string symbol)
         {
             LocalDate? latest;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT ISNULL(MAX(date), '1900-01-01') as latest
@@ -99,5 +106,7 @@ namespace DataStorage
         {
             return await base.CountAsync("PeriodPrice");
         }
+        
+        public override string GetConnectionString() => _getDatabase.GetConnectionString();
     }
 }

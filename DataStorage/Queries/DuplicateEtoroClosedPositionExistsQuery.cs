@@ -6,12 +6,19 @@ using DTO.Exceptions;
 
 namespace DataStorage.Queries
 {
-    public class DuplicateEtoroClosedPositionExistsQuery : Database, IDuplicateEtoroClosedPositionExistsQuery
+    public class DuplicateEtoroClosedPositionExistsQuery : IDuplicateEtoroClosedPositionExistsQuery
     {
+        private readonly IGetDatabase _getDatabase;
+
+        public DuplicateEtoroClosedPositionExistsQuery(IGetDatabase getDatabase)
+        {
+            _getDatabase = getDatabase;
+        }
+
         public async Task<bool> GetAsync(EtoroClosedPosition position)
         {
             int count = 0;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection connection = new SqlConnection(_getDatabase.GetConnectionString()))
             {
                 string query = @"
                     SELECT 

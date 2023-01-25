@@ -1,4 +1,7 @@
-﻿namespace ServicesTests;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
+
+namespace ServicesTests;
 
 [TestFixture]
 public class HalifaxDividendServiceTests : SetupBase
@@ -11,11 +14,16 @@ public class HalifaxDividendServiceTests : SetupBase
     public void Setup()
     {
         Initialise();
+        
+        IConfigurationRoot configuration = TestConfigurationProvider.GetConfigurationRoot();
+
+        Mock<IGetDatabase> databaseMock = new Mock<IGetDatabase>();
+        databaseMock.Setup(x => x.GetConnectionString()).Returns(configuration.GetSection("connectionString").Value);
             
-        _halifaxDividendRepository = new HalifaxDividendRepository();
+        _halifaxDividendRepository = new HalifaxDividendRepository(databaseMock.Object);
             
         _service = new HalifaxDividendService(_halifaxDividendRepository,
-            new DuplicateHalifaxDividendExistsQuery());
+            new DuplicateHalifaxDividendExistsQuery(databaseMock.Object));
     }
 
     [Test]
